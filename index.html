@@ -1193,6 +1193,39 @@ body.locked .app,body.locked .fab,body.locked #bgfx,body.locked #fxtop,body.lock
 @media (max-width:820px){.setlink span{display:none}.setlink{padding:7px 9px}}
 @media (max-width:700px){.srow{flex-direction:column;align-items:flex-start;gap:10px}.sc{justify-content:flex-start}}
 @media (prefers-reduced-motion:reduce){.lockhint{animation:none;opacity:.8}.lockform.shake{animation:none}#lock{transition:none}}
+/* ---- v38: файлы проекта ---- */
+.psec.files.drag{outline:2px dashed var(--accent);outline-offset:-4px;background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+.pfbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.pfadd{cursor:pointer}
+.pflist{display:flex;flex-direction:column;gap:8px}
+.pfcard{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);display:flex;flex-direction:column;gap:6px}
+.pfhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pfname{display:inline-flex;align-items:center;gap:6px;font-weight:600;min-width:0;overflow-wrap:anywhere}
+.pfname svg{flex:none;color:var(--muted)}
+.pfact{margin-left:auto;display:flex;align-items:center;gap:6px}
+.pfdig summary{cursor:pointer;color:var(--accent);font-size:13px}
+.pfdig-t{margin-top:6px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;color:var(--ink);background:var(--soft);border-radius:10px;padding:10px 12px}
+/* ---- v37: панель свойств задачи и дни недели ---- */
+.tp-props{grid-template-columns:repeat(auto-fit,minmax(176px,1fr));align-items:start;gap:12px 16px}
+.tp-props>.tp-prop{min-width:0}
+.tp-prop.rep-on{grid-column:span 2}
+.tp-prop .sel{display:flex;width:100%;height:36px;border-radius:10px;align-items:stretch}
+.tp-prop .sel select{display:block;width:100%;height:36px;min-height:36px;line-height:normal;padding:0 30px 0 12px;font-size:13.5px;border-radius:10px}
+.tp-prop .sel::after{right:12px}
+.tp-prop input[type=date]{width:100%;height:36px;box-sizing:border-box;padding:0 10px}
+.tp-props .tp-prop .who{display:block;width:100%;min-width:0;max-width:100%;flex:none}
+.tp-prop .who-btn{width:100%;min-width:0;height:36px;min-height:36px;box-sizing:border-box}
+.tp-prop .chk{min-height:36px}
+.tp-pv{padding:8px 0;line-height:20px}
+.dow{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.dowb{min-width:34px;height:28px;padding:0 6px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--muted);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+.dowb.on{background:color-mix(in srgb,var(--accent) 14%,var(--surface));border-color:var(--accent);color:var(--accent)}
+.dowwrap{flex:1 1 100%;display:flex;flex-wrap:wrap;align-items:center;gap:8px}.dowwrap .dow{margin-top:0}
+.dowlink{display:block;margin-top:3px;padding:0;border:0;background:none;color:var(--muted);font:inherit;font-size:12px;cursor:pointer;text-decoration:underline dotted}
+.dowlink.set{color:var(--accent);font-weight:600}
+.dowed{margin-top:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.c-day.off .doff{display:inline-block;width:20px;text-align:center;color:var(--muted);opacity:.55}
+.hc.na{opacity:.3;background:transparent;border:1px dashed var(--line)}
 /* ---- v36: намаз ---- */
 .sel{font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);max-width:100%}
 .prtimes{flex-wrap:wrap;gap:6px 16px;justify-content:flex-start}
@@ -1284,7 +1317,6 @@ body.locked .app,body.locked .fab,body.locked #bgfx,body.locked #fxtop,body.lock
 .psec.cmts .psec-ico svg{width:15px;height:15px}
 .psec.cmts .psec-head h2{font-size:14.5px}
 .psec.cmts .psec-body{padding:10px 14px 14px}
-.tp-prop .who{min-width:200px;max-width:340px}
 .who-add{display:flex;gap:6px;padding:8px 4px 2px;border-top:1px solid var(--line);margin-top:6px}
 .who-add input{flex:1;min-width:0}
 .chat-ta{flex:1 1 220px;min-width:0;max-height:42vh;overflow-y:auto;resize:none;line-height:1.45}
@@ -1404,7 +1436,7 @@ const proj=id=>S.projects.find(x=>x.id===id);
 const pname=id=>{const p=proj(id);return p?p.name:'Без проекта';};
 const open=()=>S.tasks.filter(t=>!CLOSED.includes(t.status));
 const isDone=t=>t.status==='Завершена';
-const dueChip=t=>{if(t.repeat==='daily')return '<span class="chip rep">каждый день</span>';const d=diff(t.due);const c=d!==null&&d<0&&!CLOSED.includes(t.status)?'bad':d===0?'warn':'';return `<span class="chip ${c}">${dueLabel(t.due)}</span>`;};
+const dueChip=t=>{if(t.repeat==='daily')return `<span class="chip rep">${dowText(t.rdays)}</span>`;const d=diff(t.due);const c=d!==null&&d<0&&!CLOSED.includes(t.status)?'bad':d===0?'warn':'';return `<span class="chip ${c}">${dueLabel(t.due)}</span>`;};
 const prioChip=t=>`<span class="chip ${t.prio==='Критический'?'bad':t.prio==='Высокий'?'warn':''}">${t.prio}</span>`;
 const opts=(arr,sel)=>arr.map(v=>`<option${v===sel?' selected':''}>${esc(v)}</option>`).join('');
 const projOpts=sel=>`<option value=""${!sel?' selected':''}>Без проекта</option>`+S.projects.map(p=>`<option value="${p.id}"${p.id===sel?' selected':''}>${esc(p.name)}</option>`).join('');
@@ -1486,7 +1518,7 @@ const ICON_CHEV_L='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" s
 const ICON_CHEV_R='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>';
 const ICON_REPEAT='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg>';
 /* a task that is set to «remind every day» appears on every day from its start until it is completed or cancelled */
-const occurs=(x,s)=>x.repeat==='daily'&&!!x.start&&x.start<=s&&(!x.endOn||s<=x.endOn);
+const occurs=(x,s)=>x.repeat==='daily'&&!!x.start&&x.start<=s&&(!x.endOn||s<=x.endOn)&&(!x.rdays||x.rdays[wdIdx(s)]!==false);
 const tasksOn=s=>S.tasks.filter(x=>x.repeat==='daily'?occurs(x,s):(x.due===s&&x.status!=='Отменена'));
 const doneAt=(x,s)=>x.repeat==='daily'?(x.status==='Завершена'&&s===x.endOn):isDone(x);
 function setStatus(x,v){const was=x.status;x.status=v;
@@ -1512,22 +1544,22 @@ function vDayOther(s){
   const idx=6-Math.round((parseYmd(TODAY())-parseYmd(s))/864e5),hist=idx>=0&&idx<=6;
   const hrow=h=>hist?`<label class="habit-row"><input type="checkbox" data-act="habit" data-id="${h.id}" data-i="${idx}" ${h.days[idx]?'checked':''}><span>${esc(h.name)}</span>${h.time?`<span class="htime">${esc(h.time)}</span>`:''}</label>`
     :`<div class="habit-row hr-ro"><span class="hdot" aria-hidden="true"></span><span>${esc(h.name)}</span>${h.time?`<span class="htime">${esc(h.time)}</span>`:''}</div>`;
-  const hd=hist?S.habits.filter(h=>h.days[idx]).length:0;
+  const hOnD=habitsOn(s),hd=hist?hOnD.filter(h=>h.days[idx]).length:0;
   return `${dayHead(s)}
   <div class="card main-card dview">
     <div class="eyebrow">Задачи на день</div>
-    <div class="hero"><div class="big">${doneN} из ${tot}<small>${pl(tot,['задачи','задач','задач'])}</small></div>${hist?`<div class="right">${dailyLink('Ежедневные')}<div class="bigacc">${hd} из ${S.habits.length}</div></div>`:''}</div>
+    <div class="hero"><div class="big">${doneN} из ${tot}<small>${pl(tot,['задачи','задач','задач'])}</small></div>${hist?`<div class="right">${dailyLink('Ежедневные')}<div class="bigacc">${hd} из ${hOnD.length}</div></div>`:''}</div>
     <div class="bar thick" role="progressbar" aria-label="Прогресс дня" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>
     <div class="twocol" style="margin-top:20px">
       <section><div class="eyebrow" style="margin-bottom:8px">Задачи</div>${list.length?list.map(x=>trow(x,s)).join(''):'<div class="empty" style="margin:6px 0">На этот день задач нет.</div>'}
         <input type="text" class="addin dadd" data-wkadd="${s}" placeholder="+ Задача на этот день" aria-label="Новая задача на этот день"></section>
-      <section><div style="margin-bottom:4px">${dailyLink('Ежедневные задачи')}</div>${S.habits.length?habitsSorted().map(hrow).join(''):'<div class="empty">Ежедневных задач нет.</div>'}</section>
+      <section><div style="margin-bottom:4px">${dailyLink('Ежедневные задачи')}</div>${hOnD.length?habitsSorted().filter(h=>hOn(h,s)).map(hrow).join(''):'<div class="empty">Ежедневных задач нет.</div>'}</section>
     </div></div>`;
 }
 function vToday(){
   const td=TODAY(),list=todayData();
   const doneT=list.filter(x=>doneAt(x,td)).length,openT=list.length-doneT;
-  const hn=S.habits.length,hd=S.habits.filter(h=>h.days[6]).length;
+  const hOnT=habitsOn(td),hn=hOnT.length,hd=hOnT.filter(h=>h.days[6]).length;
   const total=list.length+hn,done=doneT+hd,left=total-done,pct=total?Math.round(done/total*100):0;
   const overdue=list.filter(x=>x.repeat!=='daily'&&x.due&&x.due<td&&!isDone(x)).length;
   const banner=total===0?'На сегодня ничего нет. Задачи появятся здесь сами, когда наступит их срок.'
@@ -1546,7 +1578,7 @@ function vToday(){
       <div class="twocol" style="margin-top:22px">
         <section><div class="eyebrow" style="margin-bottom:8px">Задачи на сегодня</div>${list.length?list.map(x=>trow(x,td)).join(''):'<div class="empty" style="margin:6px 0">Задач на сегодня нет.</div>'}
           <input type="text" class="addin dadd" data-wkadd="${td}" placeholder="+ Задача на сегодня" aria-label="Новая задача на сегодня"></section>
-        <section><div style="margin-bottom:4px">${dailyLink('Ежедневные задачи')}</div>${hn?habitsSorted().map(habitRow).join(''):'<div class="empty" style="margin:6px 0">Ежедневных дел нет.</div>'}</section>
+        <section><div style="margin-bottom:4px">${dailyLink('Ежедневные задачи')}</div>${hn?habitsSorted().filter(h=>hOn(h,td)).map(habitRow).join(''):'<div class="empty" style="margin:6px 0">Ежедневных дел нет.</div>'}</section>
       </div>
     </div>
     <aside class="card side-card" aria-label="Напоминания"><div class="sidehead"><h3>Напоминания</h3>${items.length?`<span class="newpill">${items.length} ${pl(items.length,['новое','новых','новых'])}</span>`:''}</div>
@@ -1601,7 +1633,7 @@ function tRowAll(x){const closed=CLOSED.includes(x.status),d=diff(x.due),late=d!
     <td class="c-title"><div class="tcell tw"><button type="button" class="tlink t-title" data-act="task-open" data-id="${x.id}" title="Открыть задачу">${esc(x.title)}</button>${x.moves?`<span class="chip warn tmv">перенесена ${x.moves} ${pl(x.moves,['раз','раза','раз'])}</span>`:''}</div></td>
     <td class="c-proj">${x.project?`<a class="chip ok pj" href="#project-${x.project}">${esc(pname(x.project))}</a>`:'<span class="muted">Без проекта</span>'}</td>
     <td class="c-who"><div class="tcell">${whoCell(x)}</div></td>
-    <td class="c-due">${x.repeat==='daily'?`<span class="chip rep">${ICON_REPEAT}каждый день</span>`:`<span class="due-txt${late?' late':''}">${x.due?fdate(x.due):'без срока'}</span>${x.due&&!closed?`<span class="muted small dlab">${esc(dueLabel(x.due))}</span>`:''}`}</td>
+    <td class="c-due">${x.repeat==='daily'?`<span class="chip rep">${ICON_REPEAT}${dowText(x.rdays)}</span>`:`<span class="due-txt${late?' late':''}">${x.due?fdate(x.due):'без срока'}</span>${x.due&&!closed?`<span class="muted small dlab">${esc(dueLabel(x.due))}</span>`:''}`}</td>
     <td class="c-stat"><span class="tag" data-k="st" data-v="${esc(x.status)}">${esc(x.status)}</span></td>
     <td class="c-prio"><span class="tag" data-k="pr" data-v="${esc(x.prio)}">${esc(x.prio)}</span></td>
     <td class="c-act"><div class="acts">${closed?'':`<button class="ibtn" data-act="mv-open" data-id="${x.id}" type="button" aria-label="Перенести срок задачи" title="Перенести срок">${ICON_CAL}</button>`}<button class="ibtn" data-act="del-ask" data-kind="task" data-id="${x.id}" type="button" aria-label="Удалить задачу" title="Удалить">${ICON_TRASH}</button></div></td></tr>`;}
@@ -1687,7 +1719,7 @@ function vProject(id){
       <td class="c-desc"><div class="t-desc">${t.desc?esc(t.desc):'<span class="muted">Без описания</span>'}</div></td>
       <td class="c-who"><div class="tcell">${whoCell(t)}</div></td>
       <td class="c-created">${fdate(t.created)}</td>
-      <td class="c-due"><span class="due-txt${late?' late':''}" title="${esc(dueLabel(t.due))}">${t.repeat==='daily'?'каждый день':t.due?fdate(t.due):'без срока'}</span></td>
+      <td class="c-due"><span class="due-txt${late?' late':''}" title="${esc(dueLabel(t.due))}">${t.repeat==='daily'?dowText(t.rdays):t.due?fdate(t.due):'без срока'}</span></td>
       <td class="c-stat"><span class="tag" data-k="st" data-v="${esc(t.status)}">${esc(t.status)}</span></td>
       <td class="c-prio"><span class="tag" data-k="pr" data-v="${esc(t.prio)}">${esc(t.prio)}</span></td>
       <td class="c-act"><div class="acts"><button class="ibtn" data-act="mv-open" data-id="${t.id}" type="button" aria-label="Перенести срок задачи" title="Перенести срок">${ICON_CAL}</button><button class="ibtn" data-act="pt-del" data-id="${t.id}" type="button" aria-label="Удалить задачу" title="Удалить">${ICON_TRASH}</button></div></td></tr>`;}).join('');
@@ -1701,6 +1733,8 @@ function vProject(id){
       ${p.notes.length?`<div class="list">${p.notes.map(n=>`<div class="card note-card"><textarea rows="1" data-change="note-edit" data-id="${p.id}" data-n="${n.id}" aria-label="Текст заметки">${esc(n.text)}</textarea><span class="tn-date">${fdate(n.t)}</span><button class="ibtn shown sm" data-act="note-del" data-id="${p.id}" data-n="${n.id}" type="button" aria-label="Удалить заметку">${ICON_X}</button></div>`).join('')}</div>`:'<div class="empty" style="padding:8px">Заметок пока нет.</div>'}
     </div>
   </section>
+
+  ${pfHtml(p)}
 
   <section class="psec cmts" aria-labelledby="h-pc">
     <header class="psec-head"><span class="psec-ico">${ICON_CHAT}</span><div><h2 id="h-pc">${AI_ON()?'Комментарии и советы Claude':'Комментарии и советы'}</h2></div><span class="psec-count" id="pc-count">${(p.comments||[]).length}</span></header>
@@ -1757,21 +1791,30 @@ function vIdeas(){
   ${S.ideas.length?`<div class="tcard icard">${rows}</div>`:'<div class="empty">Идей пока нет.</div>'}`;
 }
 
+/* ---------- расписание по дням недели (Пн=0 … Вс=6); пусто = каждый день ---------- */
+const WDN=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+const wdIdx=s=>(parseYmd(s).getDay()+6)%7;
+const dowAll=a=>!a||!Array.isArray(a)||a.length!==7||a.every(Boolean);
+const hOn=(h,s)=>!h.dow||h.dow[wdIdx(s)]!==false;
+const habitsOn=s=>S.habits.filter(h=>hOn(h,s));
+const dowText=a=>dowAll(a)?'каждый день':a.every((v,i)=>v===(i<5))?'по будням':a.every((v,i)=>v===(i>=5))?'по выходным':WDN.filter((_,i)=>a[i]).join(' ');
+const capF=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const dowChips=(a,act,id)=>`<div class="dow" role="group" aria-label="Дни недели">${WDN.map((n,i)=>{const on=!a||a[i]!==false;return `<button type="button" class="dowb${on?' on':''}" data-act="${act}" data-id="${id}" data-i="${i}" aria-pressed="${on}">${n}</button>`;}).join('')}</div>`;
 const rtime=h=>h.time||'99:99';
 function habitsSorted(){return [...S.habits].sort((a,b)=>rtime(a).localeCompare(rtime(b))||a.name.localeCompare(b.name,'ru'));}
 const nowHM=()=>{const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');};
 function vRoutine(){
-  const list=habitsSorted(),open=S.addOpen==='routine',nowT=nowHM();
+  const all=habitsSorted(),list=all.filter(h=>hOn(h,TODAY())),open=S.addOpen==='routine',nowT=nowHM();
   const days=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));return {w:d.toLocaleDateString('ru-RU',{weekday:'short'}),n:d.getDate()};});
   const doneN=list.filter(h=>h.days[6]).length,pct=list.length?Math.round(doneN/list.length*100):0;
   const next=list.find(h=>!h.days[6]&&(h.time||'')>=nowT);
   const st=h=>h.days[6]?'done':(h.time&&h.time<nowT)?'late':(next&&h.id===next.id)?'next':'later';
   const steps=list.map(h=>{const s=st(h);return `<div class="rstep ${s}"><span class="rmark" aria-hidden="true">${s==='done'?'✓':s==='next'?'●':s==='late'?'!':''}</span><span class="rt">${esc(h.time||'—')}</span><span class="rn">${esc(h.name)}</span></div>`;}).join('');
-  const rows=list.map(h=>`<tr><td class="c-time">${S.editTime===h.id?`<input type="time" class="tinp" id="hab-edit" data-change="hab-time" data-id="${h.id}" value="${esc(h.time||'')}" aria-label="Время: ${esc(h.name)}">`:`<button type="button" class="tbtn" data-act="hab-edit" data-id="${h.id}" title="Изменить время" aria-label="Время ${esc(h.time||'не задано')}, изменить: ${esc(h.name)}">${esc(h.time||'—')}</button>`}</td><td class="c-name">${esc(h.name)}</td>${h.days.map((v,i)=>`<td class="c-day${i===6?' today':''}"><button class="dot" type="button" aria-pressed="${v}" aria-label="${esc(h.name)}, ${days[i].w} ${days[i].n}" data-act="habit" data-id="${h.id}" data-i="${i}"></button></td>`).join('')}<td class="c-del">${prayLocked(h)?'':`<button class="ibtn" data-act="del-ask" data-kind="habit" data-id="${h.id}" type="button" aria-label="Удалить ежедневную задачу: ${esc(h.name)}" title="Удалить">${ICON_TRASH}</button>`}</td></tr>`).join('');
+  const rows=all.map(h=>`<tr><td class="c-time">${S.editTime===h.id?`<input type="time" class="tinp" id="hab-edit" data-change="hab-time" data-id="${h.id}" value="${esc(h.time||'')}" aria-label="Время: ${esc(h.name)}">`:`<button type="button" class="tbtn" data-act="hab-edit" data-id="${h.id}" title="Изменить время" aria-label="Время ${esc(h.time||'не задано')}, изменить: ${esc(h.name)}">${esc(h.time||'—')}</button>`}</td><td class="c-name">${esc(h.name)}${prayLocked(h)?'':`<button type="button" class="dowlink${dowAll(h.dow)?'':' set'}" data-act="hab-dow-open" data-id="${h.id}" aria-expanded="${S.habEdit===h.id}" aria-label="Дни недели для «${esc(h.name)}»: ${dowText(h.dow)}. Изменить">${dowText(h.dow)}</button>`}${S.habEdit===h.id&&!prayLocked(h)?`<div class="dowed">${dowChips(h.dow,'hab-dow',h.id)}<button type="button" class="linkbtn" data-act="hab-dow-all" data-id="${h.id}">каждый день</button><button type="button" class="linkbtn" data-act="hab-dow-work" data-id="${h.id}">по будням</button></div>`:''}</td>${h.days.map((v,i)=>{const dt=addDays(TODAY(),i-6);if(!hOn(h,dt))return `<td class="c-day off${i===6?' today':''}"><span class="doff" role="img" aria-label="${esc(h.name)}, ${days[i].w} ${days[i].n}: не по расписанию">–</span></td>`;return `<td class="c-day${i===6?' today':''}"><button class="dot" type="button" aria-pressed="${v}" aria-label="${esc(h.name)}, ${days[i].w} ${days[i].n}" data-act="habit" data-id="${h.id}" data-i="${i}"></button></td>`;}).join('')}<td class="c-del">${prayLocked(h)?'':`<button class="ibtn" data-act="del-ask" data-kind="habit" data-id="${h.id}" type="button" aria-label="Удалить ежедневную задачу: ${esc(h.name)}" title="Удалить">${ICON_TRASH}</button>`}</td></tr>`).join('');
   return `<div class="head"><div><h1>Ежедневные задачи</h1></div>${open?'':'<button class="btn primary" data-act="addt-open" data-k="routine" type="button">+ Добавить задачу</button>'}</div>
-  ${open?`<div class="quick-add newtask" role="group" aria-label="Новая ежедневная задача" style="margin-bottom:14px"><input type="text" id="hab-in" data-enter="hab-btn" placeholder="Название задачи" aria-label="Название ежедневной задачи" style="flex:3 1 240px"><label class="timefld">Время<input type="time" id="hab-time" value="09:00" aria-label="Время выполнения"></label><button class="btn primary" id="hab-btn" data-act="hab-add" type="button">Создать задачу</button><button class="btn" data-act="addt-close" type="button">Отмена</button></div>`:''}
+  ${open?`<div class="quick-add newtask" role="group" aria-label="Новая ежедневная задача" style="margin-bottom:14px"><input type="text" id="hab-in" data-enter="hab-btn" placeholder="Название задачи" aria-label="Название ежедневной задачи" style="flex:3 1 240px"><label class="timefld">Время<input type="time" id="hab-time" value="09:00" aria-label="Время выполнения"></label><div class="dowwrap"><span class="muted small">Дни недели</span>${dowChips(S.habNew,'hab-new-dow','')}<button type="button" class="linkbtn" data-act="hab-new-preset" data-k="all">каждый день</button><button type="button" class="linkbtn" data-act="hab-new-preset" data-k="work">по будням</button></div><button class="btn primary" id="hab-btn" data-act="hab-add" type="button">Создать задачу</button><button class="btn" data-act="addt-close" type="button">Отмена</button></div>`:''}
   <div class="rgrid">
-    <div>${list.length?`<div class="tcard"><div class="scroll"><table class="tbl rtbl"><thead><tr><th class="c-time">Время</th><th class="c-name">Задача</th>${days.map((d,i)=>`<th class="c-day${i===6?' today':''}"><span>${esc(d.w)}</span><b>${d.n}</b></th>`).join('')}<th class="c-del"><span style="position:absolute;left:-9999px">Действия</span></th></tr></thead><tbody>${rows}</tbody></table></div></div>`:'<div class="empty">Ежедневных задач пока нет. Добавь первую кнопкой выше.</div>'}</div>
+    <div>${all.length?`<div class="tcard"><div class="scroll"><table class="tbl rtbl"><thead><tr><th class="c-time">Время</th><th class="c-name">Задача</th>${days.map((d,i)=>`<th class="c-day${i===6?' today':''}"><span>${esc(d.w)}</span><b>${d.n}</b></th>`).join('')}<th class="c-del"><span style="position:absolute;left:-9999px">Действия</span></th></tr></thead><tbody>${rows}</tbody></table></div></div>`:'<div class="empty">Ежедневных задач пока нет. Добавь первую кнопкой выше.</div>'}</div>
     <aside class="card rside" aria-label="Ритм дня"><div class="rsum"><div><div class="eyebrow">Сегодня</div><div class="rbig">${doneN} из ${list.length}</div></div><div class="rpct">${pct}%</div></div>
       <div class="pbar" role="progressbar" aria-label="Выполнено сегодня" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>
       <div class="eyebrow" style="margin:14px 0 6px">Ритм дня</div><div class="rsteps">${steps||'<div class="muted small">Здесь появятся задачи по времени.</div>'}</div></aside>
@@ -1803,8 +1846,8 @@ function statCalc(a,b){
   const dl=doneList();dl.forEach(e=>{if(e.d>=a&&e.d<=b)per[e.d]=(per[e.d]||0)+1;});
   const done=dates.reduce((s,x)=>s+per[x],0);
   const created=S.tasks.map(x=>x.created).concat(S.archive.map(x=>x.created)).filter(x=>x>=a&&x<=b).length;
-  const hab=S.habits.map(h=>{const n=past.filter(x=>habitDone(h,x)).length;return {h,n,tot:past.length,pct:past.length?Math.round(n/past.length*100):0};});
-  const hn=hab.reduce((s,x)=>s+x.n,0),ht=past.length*S.habits.length;
+  const hab=S.habits.map(h=>{const sd=past.filter(x=>hOn(h,x)),n=sd.filter(x=>habitDone(h,x)).length;return {h,n,tot:sd.length,pct:sd.length?Math.round(n/sd.length*100):0};});
+  const hn=hab.reduce((s,x)=>s+x.n,0),ht=hab.reduce((s,x)=>s+x.tot,0);
   const proj={};dl.forEach(e=>{if(e.d>=a&&e.d<=b)proj[e.p]=(proj[e.p]||0)+1;});
   let best=null;dates.forEach(x=>{if(per[x]>0&&(!best||per[x]>best.n))best={d:x,n:per[x]};});
   return {a,b,dates,past,per,done,created,hab,hpct:ht?Math.round(hn/ht*100):0,proj,best,avg:past.length?done/past.length:0};
@@ -1822,7 +1865,7 @@ function statBars(c){
 function statHeat(c){
   const td=TODAY();if(!S.habits.length)return '<div class="empty">Ежедневных задач пока нет.</div>';
   if(c.dates.length>31)return `<div class="heat">${c.hab.map(x=>`<div class="hrow"><a class="hname" href="#routine">${esc(x.h.name)}</a><div class="hbar" data-tip="${x.n} из ${x.tot} дней"><i style="width:${x.pct}%"></i></div><span class="hpct">${x.pct}%</span></div>`).join('')}</div>`;
-  return `<div class="heat" style="--n:${c.dates.length}">${c.hab.map(x=>`<div class="hrow"><a class="hname" href="#routine" title="Открыть «Ежедневные задачи»">${esc(x.h.name)}</a><div class="hcells">${c.dates.map((d,i)=>{const st=d>td?'f':habitDone(x.h,d)?'on':'off';return `<span class="hc ${st}" data-tip="${fullDay(d)}: ${st==='f'?'ещё впереди':st==='on'?'выполнено':'не выполнено'}"${i<c.dates.length/2?' data-tl':' data-tr'}></span>`;}).join('')}</div><span class="hpct" data-tip="Выполнено ${x.n} из ${x.tot} дней">${x.pct}%</span></div>`).join('')}</div>`;
+  return `<div class="heat" style="--n:${c.dates.length}">${c.hab.map(x=>`<div class="hrow"><a class="hname" href="#routine" title="Открыть «Ежедневные задачи»">${esc(x.h.name)}</a><div class="hcells">${c.dates.map((d,i)=>{const st=d>td?'f':!hOn(x.h,d)?'na':habitDone(x.h,d)?'on':'off';return `<span class="hc ${st}" data-tip="${fullDay(d)}: ${st==='f'?'ещё впереди':st==='na'?'не по расписанию':st==='on'?'выполнено':'не выполнено'}"${i<c.dates.length/2?' data-tl':' data-tr'}></span>`;}).join('')}</div><span class="hpct" data-tip="Выполнено ${x.n} из ${x.tot} дней">${x.pct}%</span></div>`).join('')}</div>`;
 }
 function vStats(){
   const [a,b]=statRange(),c=statCalc(a,b),len=diffDays(a,b)+1,p=statCalc(addDays(a,-len),addDays(a,-1)),td=TODAY(),isCur=a<=td&&td<=b;
@@ -1872,7 +1915,7 @@ function vWeek(){
     <div class="dnav"><button class="iback" type="button" data-act="wk-prev" aria-label="Предыдущая неделя" title="Предыдущая неделя (←)">${ICON_CHEV_L}</button><button class="iback" type="button" data-act="wk-next" aria-label="Следующая неделя" title="Следующая неделя (→)">${ICON_CHEV_R}</button>${S.weekOff?'<button class="btn" type="button" data-act="wk-now">Эта неделя</button>':''}<a class="btn primary" href="#today">Сегодня</a></div></div>
   ${late.length?`<div class="latebar">${lvl('crit','Просрочено')}${late.map(x=>wt(x,td)).join('')}</div>`:''}
   <div class="weekwrap"><div class="weekgrid">${cols}</div></div>
-  ${S.weekOff===0?`<div class="card dcard"><div style="margin-bottom:6px">${dailyLink('Ежедневные задачи на сегодня')}</div><div class="dgrid">${S.habits.length?habitsSorted().map(habitRow).join(''):'<div class="empty">Ежедневных задач нет.</div>'}</div></div>`:''}`;
+  ${S.weekOff===0?`<div class="card dcard"><div style="margin-bottom:6px">${dailyLink('Ежедневные задачи на сегодня')}</div><div class="dgrid">${habitsOn(TODAY()).length?habitsSorted().filter(h=>hOn(h,TODAY())).map(habitRow).join(''):'<div class="empty">Ежедневных задач нет.</div>'}</div></div>`:''}`;
 }
 
 function vAssistant(){
@@ -2665,6 +2708,99 @@ async function courseRefresh(cid){
   S.dev.updBusy[cid]=false;updRefresh(cid);
   if(ok){toast('Курс обновлён: добавлен новый материал.');sfx('done');const el=document.getElementById('upd-sec');if(el&&el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'start'});if(CL.on)clSoon();}
 }
+/* ---------- Файлы проекта: загрузка, чтение Claude, краткое содержание ---------- */
+let PF_UNDO_MS=9000;
+const PF_MAX=10*1024*1024,PF_PDF_MAX=8*1024*1024,PF_IMG_MAX=4.5*1024*1024,PF_TEXT_CAP=60000;
+const PF_TEXT_EXT=['txt','md','markdown','csv','tsv','json','xml','html','htm','log','yml','yaml','ini','cfg','toml','js','ts','jsx','tsx','py','cs','java','sql','css','sh','bat','php','rb','go','rs','kt','swift','tex','srt','vtt'];
+const pfExt=n=>(String(n).split('.').pop()||'').toLowerCase();
+const pfKind=(name,type)=>{const e=pfExt(name);if(e==='pdf'||type==='application/pdf')return 'pdf';if(['png','jpg','jpeg','gif','webp'].includes(e)||/^image\/(png|jpe?g|gif|webp)$/.test(type||''))return 'image';if(['docx','pptx','xlsx'].includes(e))return e;if(PF_TEXT_EXT.includes(e)||/^text\//.test(type||''))return 'text';return 'other';};
+const pfMedia=(name,type)=>({png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',gif:'image/gif',webp:'image/webp'}[pfExt(name)]||(/^image\/(png|jpe?g|gif|webp)$/.test(type||'')?type.replace('jpg','jpeg'):'image/png'));
+const pfSize=n=>n>=1048576?(n/1048576).toFixed(1).replace('.',',')+' МБ':Math.max(1,Math.round(n/1024))+' КБ';
+const pfBuf=f=>f.arrayBuffer?f.arrayBuffer():new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no(r.error);r.readAsArrayBuffer(f);});
+function pfB64(buf){const u=new Uint8Array(buf);let s='';for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s);}
+function pfDecode(buf){let s=new TextDecoder('utf-8').decode(buf);if(s.charCodeAt(0)===0xFEFF)s=s.slice(1);const bad=(s.match(/\uFFFD/g)||[]).length;if(bad>3&&bad/Math.max(1,s.length)>0.005){try{s=new TextDecoder('windows-1251').decode(buf);}catch(e){}}return s;}
+/* минимальное чтение ZIP (docx, xlsx, pptx это ZIP-архивы с XML внутри) */
+function zipIndex(buf){const dv=new DataView(buf),u=new Uint8Array(buf);let i=u.length-22;while(i>=0&&dv.getUint32(i,true)!==0x06054b50)i--;if(i<0)throw {code:'unsupported'};
+  const n=dv.getUint16(i+10,true);let p=dv.getUint32(i+16,true);const out={};
+  for(let k=0;k<n;k++){if(dv.getUint32(p,true)!==0x02014b50)break;const nl=dv.getUint16(p+28,true),el=dv.getUint16(p+30,true),cl=dv.getUint16(p+32,true);
+    out[new TextDecoder().decode(u.subarray(p+46,p+46+nl))]={method:dv.getUint16(p+10,true),csize:dv.getUint32(p+20,true),usize:dv.getUint32(p+24,true),lho:dv.getUint32(p+42,true)};p+=46+nl+el+cl;}
+  return out;}
+async function zipRead(buf,ent){if(!ent||ent.usize>25*1048576)throw {code:'unsupported'};const dv=new DataView(buf),u=new Uint8Array(buf),lh=ent.lho,start=lh+30+dv.getUint16(lh+26,true)+dv.getUint16(lh+28,true),data=u.subarray(start,start+ent.csize);
+  if(ent.method===0)return data;if(ent.method!==8||typeof DecompressionStream==='undefined')throw {code:'unsupported'};
+  return new Uint8Array(await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());}
+const pfXml=u8=>new DOMParser().parseFromString(new TextDecoder().decode(u8),'application/xml');
+const pfParas=(doc,pTag,tTag)=>[...doc.getElementsByTagName(pTag)].map(p=>[...p.getElementsByTagName('*')].map(e=>e.tagName===tTag?e.textContent:e.tagName==='w:tab'?'\t':e.tagName==='w:br'?'\n':'').join('')).filter(x=>x.trim());
+async function pfOffice(buf,kind){
+  const z=zipIndex(buf);
+  if(kind==='docx')return pfParas(pfXml(await zipRead(buf,z['word/document.xml'])),'w:p','w:t').join('\n');
+  if(kind==='pptx'){const names=Object.keys(z).filter(n=>/^ppt\/slides\/slide\d+\.xml$/.test(n)).sort((a,b)=>parseInt(a.match(/\d+/)[0])-parseInt(b.match(/\d+/)[0]));const out=[];
+    for(const n of names){const tx=pfParas(pfXml(await zipRead(buf,z[n])),'a:p','a:t');if(tx.length)out.push(`Слайд ${out.length+1}:\n`+tx.join('\n'));}return out.join('\n\n');}
+  const sh=[];if(z['xl/sharedStrings.xml']){[...pfXml(await zipRead(buf,z['xl/sharedStrings.xml'])).getElementsByTagName('si')].forEach(si=>sh.push([...si.getElementsByTagName('t')].map(x=>x.textContent).join('')));}
+  const names=Object.keys(z).filter(n=>/^xl\/worksheets\/sheet\d+\.xml$/.test(n)).sort((a,b)=>parseInt(a.match(/\d+/)[0])-parseInt(b.match(/\d+/)[0])),out=[];
+  for(const n of names){const rows=[...pfXml(await zipRead(buf,z[n])).getElementsByTagName('row')].slice(0,400).map(r=>[...r.getElementsByTagName('c')].slice(0,40).map(c=>{const v=c.getElementsByTagName('v')[0],tp=c.getAttribute('t');
+      if(tp==='s'&&v)return sh[+v.textContent]||'';if(tp==='inlineStr')return [...c.getElementsByTagName('t')].map(x=>x.textContent).join('');return v?v.textContent:'';}).join(' | ')).filter(r=>r.replace(/[ |]/g,''));
+    if(rows.length)out.push(`Лист ${out.length+1}:\n`+rows.join('\n'));}
+  return out.join('\n\n');}
+async function pfExtract(blob,f,kind){
+  if(kind==='other')throw {code:'unsupported'};
+  if(kind==='pdf'){if(blob.size>PF_PDF_MAX)throw {code:'toolarge'};return {mode:'pdf',b64:pfB64(await pfBuf(blob))};}
+  if(kind==='image'){if(blob.size>PF_IMG_MAX)throw {code:'toolarge'};return {mode:'image',media:pfMedia(f.name,f.type),b64:pfB64(await pfBuf(blob))};}
+  const buf=await pfBuf(blob);let text=kind==='text'?pfDecode(buf):await pfOffice(buf,kind),note='';
+  text=text.replace(/\r\n/g,'\n').replace(/[ \t]+\n/g,'\n').trim();if(!text)throw {code:'empty'};
+  if(text.length>PF_TEXT_CAP){text=text.slice(0,PF_TEXT_CAP);note=` Файл длинный: прочитано начало (первые ${PF_TEXT_CAP/1000} тыс. знаков).`;}
+  return {mode:'text',text,note};}
+function pfPrompt(p,f,pack){
+  return `Ты помощник по проектам в приложении NQ. Пользователь загрузил файл в проект «${p.name}». Прочитай файл и составь рабочую выжимку, чтобы позже консультировать по выполнению задач проекта.\n\nФайл: «${f.name}».${pack.note||''}\n\nНапиши по-русски, простым языком, без markdown, не более 350 слов, строго по порядку:\n1) О чём файл (одно-два предложения).\n2) Ключевые факты: цифры, сроки, требования, участники, решения, условия.\n3) Риски, пробелы и противоречия, если они есть.\n4) Что из этого важно для выполнения задач проекта.\nНичего не выдумывай: если чего-то в файле нет, так и скажи. Если файл пуст или не читается, напиши об этом одной строкой.`;}
+async function pfAsk(p,f,pack){
+  const prompt=pfPrompt(p,f,pack);
+  if(pack.mode==='text'){const body=prompt+'\n\nСодержимое файла:\n"""\n'+pack.text+'\n"""';
+    if(window.claude&&!CLOUD)return (await devSample(false,body,{cache:false,kind:'digest'})).text;
+    return (await aiCloud({messages:[{role:'user',content:body}],kind:'digest',timeoutMs:110000})).text;}
+  if(!(CLOUD&&CL.user))throw {code:'cloudonly'};
+  const block=pack.mode==='pdf'?{type:'document',source:{type:'base64',media_type:'application/pdf',data:pack.b64}}:{type:'image',source:{type:'base64',media_type:pack.media,data:pack.b64}};
+  return (await aiCloud({messages:[{role:'user',content:[block,{type:'text',text:prompt}]}],kind:'digest',timeoutMs:110000})).text;}
+const pfClean=s=>String(s||'').replace(/```[\s\S]*?```/g,'').replace(/\*\*/g,'').replace(/^#+\s*/gm,'').trim().slice(0,3500);
+const pfWhy=e=>{const c=e&&e.code;return c==='absent'?'Claude выключен или недоступен: файл сохранён, прочитайте его позже кнопкой «Прочитать».':c==='quota'?'Дневной лимит запросов к Claude исчерпан: файл сохранён, прочитайте его завтра.':c==='unsupported'?'Этот формат пока не читается. Сохраните файл как PDF, DOCX или TXT и загрузите его.':c==='toolarge'?'Файл слишком большой для чтения (PDF до 8 МБ, изображения до 4,5 МБ). Он сохранён.':c==='empty'?'В файле не нашлось текста для чтения.':c==='cloudonly'?'PDF и изображения читаются только на сайте после входа.':'Не удалось прочитать файл. Нажмите «Прочитать» ещё раз.';};
+const pfOf=(pid,fid)=>{const p=S.projects.find(x=>x.id===pid);return {p,f:p&&(p.files||[]).find(x=>x.id===fid)};};
+async function pfFetch(f){if(f._file)return f._file;if(!f.url&&CL.on)await clSign(true);const r=await fetch(f.url);if(!r.ok)throw {code:'network'};return r.blob();}
+async function pfRead(pid,fid,file){
+  const {p,f}=pfOf(pid,fid);if(!f||f.busy==='read')return;
+  f.busy='read';f.err='';pfRefresh(pid);
+  try{if(!AI_ON())throw {code:'absent'};const kind=pfKind(f.name,f.type);const pack=await pfExtract(file||await pfFetch(f),f,kind);const txt=pfClean(await pfAsk(p,f,pack));if(!txt)throw {code:'empty_completion'};f.digest=txt;f.dAt=TODAY();f.err='';}
+  catch(e){f.digest='';f.err=pfWhy(e);}
+  f.busy='';pfRefresh(pid);if(CL.on)clSoon();
+}
+async function pfAdd(pid,files){
+  const p=S.projects.find(x=>x.id===pid);if(!p||!files.length)return;p.files=p.files||[];const queue=[];
+  for(const file of files){
+    if(!file.size){toast(`Файл «${file.name}» пустой.`);continue;}
+    if(file.size>PF_MAX){toast(`Файл «${file.name}» больше 10 МБ: он не загружен.`);continue;}
+    const id=nid(),safe=file.name.replace(/[^\w.\-]+/g,'_').slice(-80),rec={id,name:file.name,size:file.size,type:file.type||'',url:URL.createObjectURL(file),path:'',digest:'',dAt:'',err:'',busy:'upload',_file:file};
+    p.files.push(rec);pfRefresh(pid);
+    if(CL.on&&CL.user){const path=`${CL.user.id}/p-${pid}/${id}-${safe}`,r=await CL.sb.storage.from('attachments').upload(path,file,{contentType:file.type||'application/octet-stream',upsert:false});
+      if(r.error){p.files=p.files.filter(x=>x!==rec);toast('Не удалось загрузить файл: '+clHuman(r.error));pfRefresh(pid);continue;}
+      rec.path=path;}
+    rec.busy='';queue.push([id,file]);pfRefresh(pid);if(CL.on)clSoon();
+  }
+  for(const [id,file] of queue)await pfRead(pid,id,file);
+}
+function pfDigests(p,cap){const fs=((p&&p.files)||[]).filter(f=>f.digest);if(!fs.length)return '';const per=Math.max(500,Math.floor(cap/fs.length));return fs.map(f=>`Файл «${f.name}»: ${f.digest.replace(/\s+/g,' ').slice(0,per)}`).join('\n');}
+function pfCard(p,f){
+  const st=f.busy==='upload'?'<span class="chip">Загружаю…</span>':f.busy==='read'?'<span class="chip"><i class="spin"></i>Claude читает…</span>':f.digest?'<span class="chip ok">Claude прочитал</span>':f.err?'<span class="chip warn">не прочитан</span>':'<span class="chip">ждёт чтения</span>';
+  const can=pfKind(f.name,f.type)!=='other';
+  return `<div class="pfcard" data-pfid="${esc(f.id)}"><div class="pfhead"><span class="pfname">${ICON_FILE}${esc(f.name)}</span><span class="muted small">${esc(pfSize(f.size))}</span>${st}
+    <span class="pfact">${f.url?`<a class="btn small" href="${esc(f.url)}" download="${esc(f.name)}" target="_blank" rel="noopener">Открыть</a>`:''}${can&&!f.busy?`<button class="btn small" type="button" data-act="pf-read" data-id="${p.id}" data-n="${esc(f.id)}">${f.digest?'Прочитать заново':'Прочитать'}</button>`:''}<button class="ibtn shown sm" type="button" data-act="pf-del" data-id="${p.id}" data-n="${esc(f.id)}" aria-label="Удалить файл: ${esc(f.name)}">${ICON_TRASH}</button></span></div>
+    ${f.err&&!f.busy?`<p class="nerr">${esc(f.err)}</p>`:''}${f.digest?`<details class="pfdig"><summary>Что Claude понял</summary><div class="pfdig-t">${esc(f.digest)}</div></details>`:''}</div>`;}
+function pfHtml(p){
+  const fs=p.files||[];
+  return `<section class="psec files" aria-labelledby="h-files" data-pf="${p.id}" data-pfdrop="${p.id}">
+    <header class="psec-head"><span class="psec-ico">${ICON_FILE}</span><div><h2 id="h-files">Файлы проекта</h2></div><span class="psec-count">${fs.length}</span></header>
+    <div class="psec-body"><div class="pfbar"><label class="btn small primary pfadd"><input type="file" multiple hidden id="pf-in" data-change="pf-add" data-id="${p.id}" aria-label="Добавить файлы проекта">Добавить файлы</label><span class="muted small">или перетащите их сюда</span></div>
+      ${fs.length?`<div class="pflist">${fs.map(f=>pfCard(p,f)).join('')}</div>`:'<div class="empty" style="padding:8px">Файлов пока нет.</div>'}</div></section>`;}
+function pfRefresh(pid){const el=[...document.querySelectorAll('[data-pf]')].find(x=>x.dataset.pf===pid),p=S.projects.find(x=>x.id===pid);if(!el||!p)return;const h=document.createElement('div');h.innerHTML=pfHtml(p);el.replaceWith(h.firstElementChild);}
+document.addEventListener('dragover',e=>{const z=e.target.closest&&e.target.closest('[data-pfdrop]');if(z){e.preventDefault();z.classList.add('drag');}});
+document.addEventListener('dragleave',e=>{const z=e.target.closest&&e.target.closest('[data-pfdrop]');if(z&&!z.contains(e.relatedTarget))z.classList.remove('drag');});
+document.addEventListener('drop',e=>{const z=e.target.closest&&e.target.closest('[data-pfdrop]');if(!z)return;e.preventDefault();z.classList.remove('drag');const fl=[...((e.dataTransfer&&e.dataTransfer.files)||[])];if(fl.length)pfAdd(z.dataset.pfdrop,fl);});
 /* ---------- действия ---------- */
 function devPlan(cid,li){const c=devCourse(cid),l=c.l[li],title=`Саморазвитие: ${c.tag}, урок ${li+1}. ${l.t}`;
   if(S.tasks.some(x=>x.title===title&&!CLOSED.includes(x.status))){toast('Этот урок уже в плане.');return;}
@@ -2885,7 +3021,7 @@ function doDel(kind,id){
   if(kind==='task'){const x=S.tasks.find(y=>y.id===id);if(!x)return;go=taskBack(x).href;
     clRm(x.files);x.files.forEach(f=>{if(f.url)URL.revokeObjectURL(f.url);});S.tasks=S.tasks.filter(y=>y.id!==id);toast('Задача удалена.');}
   else if(kind==='habit'){S.habits=S.habits.filter(h=>h.id!==id);toast('Ежедневная задача удалена.');}
-  else if(kind==='project'){S.tasks.filter(x=>x.project===id).forEach(x=>{clRm(x.files);x.files.forEach(f=>{if(f.url)URL.revokeObjectURL(f.url);});});
+  else if(kind==='project'){clRm((S.projects.find(q=>q.id===id)||{}).files||[]);S.tasks.filter(x=>x.project===id).forEach(x=>{clRm(x.files);x.files.forEach(f=>{if(f.url)URL.revokeObjectURL(f.url);});});
     S.tasks=S.tasks.filter(x=>x.project!==id);S.projects=S.projects.filter(x=>x.id!==id);delete S.tf[id];if(S.pf==='tasks')S.pf='';go='#projects';toast('Проект удалён.');}
   else if(kind==='idea'){S.ideas=S.ideas.filter(d=>d.id!==id);toast('Идея удалена.');}
   $('#dlg').close();
@@ -2943,7 +3079,7 @@ function vTask(id){
     <div class="tp-prop"><span class="tp-pl">Приоритет</span>${selW('pr',t.id,'td-prio',PRIOS,t.prio,'Приоритет')}</div>
     <div class="tp-prop"><span class="tp-pl">Ответственный</span>${whoHtml('task:'+t.id)}</div>
     <div class="tp-prop"><span class="tp-pl">${t.repeat?'Начиная с':'Срок'}</span><input type="date" class="${(()=>{const dd=diff(t.due);return !t.repeat&&dd!==null&&dd<0&&!CLOSED.includes(t.status)?'late':'';})()}" data-change="${t.repeat?'td-start':'td-due'}" data-id="${t.id}" value="${esc(t.repeat?t.start:t.due)}" aria-label="${t.repeat?'Дата начала':'Срок выполнения'}"></div>
-    <div class="tp-prop"><span class="tp-pl">Повтор</span><label class="chk" title="Задача появляется в плане каждый день, пока её не завершат или не отменят"><input type="checkbox" data-change="td-repeat" data-id="${t.id}"${t.repeat?' checked':''}>Каждый день</label></div>
+    <div class="tp-prop${t.repeat?' rep-on':''}"><span class="tp-pl">Повтор</span><label class="chk" title="Задача появляется в плане в выбранные дни, пока её не завершат или не отменят"><input type="checkbox" data-change="td-repeat" data-id="${t.id}"${t.repeat?' checked':''}>${t.repeat?capF(dowText(t.rdays)):'Каждый день'}</label>${t.repeat?dowChips(t.rdays,'td-dow',t.id):''}</div>
     <div class="tp-prop"><span class="tp-pl">Создана</span><span class="tp-pv">${fdate(t.created)}${t.moves?`<span class="muted small">, перенесена ${t.moves} ${pl(t.moves,['раз','раза','раз'])}</span>`:''}</span></div>
     ${CLOSED.includes(t.status)||t.repeat?'':`<div class="tp-prop tp-act"><button class="btn small" data-act="mv-open" data-id="${t.id}" type="button">Не успел, перенести срок</button></div>`}
   </section>
@@ -2975,7 +3111,7 @@ function cmtDialog(id){
 /* ---------- assistant rules (demo) ---------- */
 function botReply(q){
   if(q==='today'){
-    const list=todayData().filter(x=>!isDone(x)),hb=S.habits.filter(h=>!h.days[6]);
+    const list=todayData().filter(x=>!isDone(x)),hb=habitsOn(TODAY()).filter(h=>!h.days[6]);
     if(!list.length&&!hb.length)return 'На сегодня всё выполнено.';
     return (list.length?'Сегодня наступил срок по задачам:<ul>'+list.map(x=>`<li><b>${esc(x.title)}</b>: ${x.due<TODAY()?dueLabel(x.due):'срок сегодня'}, приоритет ${x.prio.toLowerCase()}</li>`).join('')+'</ul>':'Задач со сроком на сегодня нет.')
       +(hb.length?`<br>Ежедневные дела, которые ещё не отмечены: ${hb.map(h=>esc(h.name)+(h.time?' ('+h.time+')':'')).join(', ')}.`:'');
@@ -3027,6 +3163,18 @@ document.addEventListener('click',e=>{
     case 'dev-review':quizReview();return;
     case 'dev-gen':quizGenerate(id,+b.dataset.n);return;
     case 'dev-deep':lessonDeepen(id,+b.dataset.n);return;
+    case 'hab-new-dow':{const a=(S.habNew||Array(7).fill(true)).slice(),i=+b.dataset.i;a[i]=!a[i];if(!a.some(Boolean)){toast('Выберите хотя бы один день.');return;}S.habNew=a;
+      document.querySelectorAll('[data-act="hab-new-dow"]').forEach(x=>{const on=a[+x.dataset.i];x.classList.toggle('on',on);x.setAttribute('aria-pressed',String(on));});return;}
+    case 'hab-new-preset':{S.habNew=b.dataset.k==='work'?[true,true,true,true,true,false,false]:Array(7).fill(true);
+      document.querySelectorAll('[data-act="hab-new-dow"]').forEach(x=>{const on=S.habNew[+x.dataset.i];x.classList.toggle('on',on);x.setAttribute('aria-pressed',String(on));});return;}
+    case 'hab-dow-open':S.habEdit=S.habEdit===id?'':id;break;
+    case 'hab-dow':{const h=S.habits.find(x=>x.id===id);if(!h)return;const a=(h.dow||Array(7).fill(true)).slice(),i=+b.dataset.i;a[i]=!a[i];if(!a.some(Boolean)){toast('Выберите хотя бы один день.');return;}h.dow=dowAll(a)?undefined:a;break;}
+    case 'hab-dow-all':{const h=S.habits.find(x=>x.id===id);if(h)h.dow=undefined;break;}
+    case 'hab-dow-work':{const h=S.habits.find(x=>x.id===id);if(h)h.dow=[true,true,true,true,true,false,false];break;}
+    case 'td-dow':{const x=task();if(!x)return;const a=(x.rdays||Array(7).fill(true)).slice(),i=+b.dataset.i;a[i]=!a[i];if(!a.some(Boolean)){toast('Выберите хотя бы один день.');return;}x.rdays=dowAll(a)?null:a;break;}
+    case 'pf-read':pfRead(id,b.dataset.n,null);return;
+    case 'pf-del':{const p=S.projects.find(x=>x.id===id);if(!p)return;const i=(p.files||[]).findIndex(f=>f.id===b.dataset.n);if(i<0)return;const f=p.files.splice(i,1)[0];pfRefresh(id);const tm=setTimeout(()=>clRm([f]),PF_UNDO_MS);
+      toast('Файл удалён.',{label:'Вернуть',fn:()=>{clearTimeout(tm);p.files.splice(Math.min(i,p.files.length),0,f);pfRefresh(id);if(CL.on)clSoon();}});if(CL.on)clSoon();return;}
     case 'dev-refresh':courseRefresh(id);return;
     case 'note-send':noteSend(id,b.dataset.k);return;
     case 'note-new':{const nk=id+':'+b.dataset.k;S.dev.noteEdit[nk]=true;S.dev.draft[nk]='';noteRefresh(id,b.dataset.k);const ta=document.getElementById('note-in');if(ta)ta.focus();return;}
@@ -3161,12 +3309,12 @@ document.addEventListener('click',e=>{
     case 'hab-add':{const v=$('#hab-in').value.trim(),tm=$('#hab-time').value;
       if(!v){toast('Сначала напиши название задачи.');return;}
       if(!tm){toast('Укажи время выполнения.');return;}
-      S.habits.push({id:nid(),name:v,time:tm,days:Array(7).fill(false)});S.addOpen='';
+      S.habits.push({id:nid(),name:v,time:tm,days:Array(7).fill(false),dow:dowAll(S.habNew)?undefined:S.habNew.slice()});S.habNew=null;S.addOpen='';
       toast(`Ежедневная задача добавлена на ${tm}. Она появится в «Сегодня».`);break;}
     case 'close-day':{
-      const list=todayData(),doneT=list.filter(isDone).length,hd=S.habits.filter(h=>h.days[6]).length;
+      const list=todayData(),doneT=list.filter(isDone).length,hOnS=habitsOn(TODAY()),hd=hOnS.filter(h=>h.days[6]).length;
       const carry=list.filter(x=>!isDone(x));
-      showDlg(`<h2>Итог дня</h2><p>Задачи по срокам: ${doneT} из ${list.length}. Ежедневные дела: ${hd} из ${S.habits.length}.</p>
+      showDlg(`<h2>Итог дня</h2><p>Задачи по срокам: ${doneT} из ${list.length}. Ежедневные дела: ${hd} из ${hOnS.length}.</p>
         ${carry.length?`<p style="margin-top:12px"><b>Останутся в плане на завтра:</b></p><ul>${carry.map(x=>`<li>${esc(x.title)}</li>`).join('')}</ul>`:'<p style="margin-top:12px">Все задачи на сегодня закрыты. Хороший день.</p>'}
         <p style="margin-top:12px"><b>Не забыть:</b></p><ul><li>Во входящих ${S.inbox.length} ${pl(S.inbox.length,['запись','записи','записей'])}</li></ul>
         <div style="margin-top:18px;text-align:right"><button class="btn primary" data-act="close-dlg" type="button">Закрыть итог</button></div>`);return;}
@@ -3183,6 +3331,7 @@ document.addEventListener('change',e=>{
     if(el)el.classList.toggle('late',d!==null&&d<0&&!CLOSED.includes(x.status));
     const sm=$('#tsum');if(sm)sm.innerHTML=sumHtml(x.project);};
   if(k==='pn-before'){PN.before=[0,5,10,15].includes(+v)?+v:0;pnSave();render();return;}
+  if(k==='pf-add'){const fl=[...(s.files||[])];s.value='';pfAdd(s.dataset.id,fl);return;}
   if(k==='pray-city'){S.pray.city=prayCity(v).id;praySave();render();return;}
   if(k==='pray-adj'){S.pray.adj[s.dataset.k]=Math.max(-30,Math.min(30,Math.round(Number(v))||0));praySave();render();return;}
   if(k==='pt-title'){if(!v.trim()){s.value=task().title;toast('Название задачи не может быть пустым.');}else task().title=v.trim();return;}
@@ -3201,7 +3350,7 @@ document.addEventListener('change',e=>{
   if(k==='st-from'){if(v){S.st.from=v;if(S.st.to&&v>S.st.to)S.st.to=v;render();}return;}
   if(k==='st-to'){if(v){S.st.to=v;if(S.st.from&&v<S.st.from)S.st.from=v;render();}return;}
   if(k==='mk-rep'){const l=$('#mk-dl');if(l)l.innerHTML=s.checked?'Начать с <span class="sub" style="text-transform:none;letter-spacing:0;font-weight:400">по умолчанию с сегодня</span>':'Срок <span class="sub" style="text-transform:none;letter-spacing:0;font-weight:400">необязательно</span>';return;}
-  if(k==='td-repeat'){const x=task();if(s.checked){x.repeat='daily';x.start=x.due||TODAY();x.due='';x.endOn=x.status==='Завершена'?TODAY():x.status==='Отменена'?addDays(TODAY(),-1):'';}else{x.repeat='';x.start='';x.endOn='';}render();return;}
+  if(k==='td-repeat'){const x=task();if(s.checked){x.repeat='daily';x.start=x.due||TODAY();x.due='';x.endOn=x.status==='Завершена'?TODAY():x.status==='Отменена'?addDays(TODAY(),-1):'';}else{x.repeat='';x.start='';x.endOn='';x.rdays=null;}render();return;}
   if(k==='td-start'){task().start=v||TODAY();return;}
   if(k==='td-status'){setStatus(task(),v);s.parentElement.dataset.v=v;return;}
   if(k==='td-prio'){task().prio=v;s.parentElement.dataset.v=v;return;}
@@ -3707,13 +3856,13 @@ function aiFmt(text){let out='',ul=false;const close=()=>{if(ul){out+='</ul>';ul
 function advCtx(kind,it){
   const cmt=(it.comments||[]).filter(c=>c.who!=='claude').slice(-5).map(c=>c.text).join(' | ').slice(0,500);
   if(kind==='task'){const n=whoNames(it),nt=(it.notes||[]).slice(0,5).map(x=>x.text).join(' | ').slice(0,500);
-    return `Название: ${it.title}\nОписание: ${(it.desc||'нет').slice(0,700)}\nПроект: ${it.project?pname(it.project):'без проекта'}\nСтатус: ${it.status}. Приоритет: ${it.prio}.\nСрок: ${it.repeat?'повторяется каждый день':it.due?`${fdate(it.due)} (${dueLabel(it.due)})`:'не задан'}\nОтветственные: ${n.length?n.join(', '):'не назначены'}`+(it.moves?`\nСрок переносили ${it.moves} раз.`:'')+(nt?`\nЗаметки: ${nt}`:'')+(cmt?`\nКомментарии: ${cmt}`:'');}
+    return `Название: ${it.title}\nОписание: ${(it.desc||'нет').slice(0,700)}\nПроект: ${it.project?pname(it.project):'без проекта'}\nСтатус: ${it.status}. Приоритет: ${it.prio}.\nСрок: ${it.repeat?'повторяется '+dowText(it.rdays):it.due?`${fdate(it.due)} (${dueLabel(it.due)})`:'не задан'}\nОтветственные: ${n.length?n.join(', '):'не назначены'}`+(it.moves?`\nСрок переносили ${it.moves} раз.`:'')+(nt?`\nЗаметки: ${nt}`:'')+(cmt?`\nКомментарии: ${cmt}`:'')+(()=>{const pj=it.project&&S.projects.find(q=>q.id===it.project),d=pfDigests(pj,2500);return d?`\nФайлы проекта (Claude прочитал их при загрузке):\n${d}`:'';})();}
   const ts=S.tasks.filter(x=>x.project===it.id),open=ts.filter(x=>!CLOSED.includes(x.status)),late=open.filter(x=>{const d=diff(x.due);return d!==null&&d<0&&!x.repeat;});
-  return `Проект: ${it.name} (${BLABEL[it.block]||'личный'})\nЗадач: ${ts.length}, открытых: ${open.length}, просроченных: ${late.length}.\n`+(open.slice(0,12).map(x=>`— ${x.title} [${x.status}, ${x.prio}${x.due?', срок '+fdate(x.due):''}${whoNames(x).length?', '+whoNames(x).join('/'):''}]`).join('\n')||'Открытых задач нет.')+((it.notes||[]).length?`\nЗаметки: ${it.notes.slice(0,5).map(n=>n.text).join(' | ').slice(0,500)}`:'')+(cmt?`\nКомментарии: ${cmt}`:'');
+  return `Проект: ${it.name} (${BLABEL[it.block]||'личный'})\nЗадач: ${ts.length}, открытых: ${open.length}, просроченных: ${late.length}.\n`+(open.slice(0,12).map(x=>`— ${x.title} [${x.status}, ${x.prio}${x.due?', срок '+fdate(x.due):''}${whoNames(x).length?', '+whoNames(x).join('/'):''}]`).join('\n')||'Открытых задач нет.')+((it.notes||[]).length?`\nЗаметки: ${it.notes.slice(0,5).map(n=>n.text).join(' | ').slice(0,500)}`:'')+(cmt?`\nКомментарии: ${cmt}`:'')+(pfDigests(it,4000)?`\nФайлы проекта (Claude прочитал их при загрузке):\n${pfDigests(it,4000)}`:'');
 }
 function advPrompt(kind,it,mode){
   const what=kind==='task'?'задачу':'проект',ctx=advCtx(kind,it);
-  if(mode==='advice')return `Ты помощник по планированию в приложении NQ. Пользователь открыл ${what}. Напиши короткий практичный совет по-русски: от трёх до пяти пунктов, каждый с новой строки и со знака «— ». Подскажи, с какого шага начать, на что обратить внимание, какие риски или вопросы стоит уточнить${kind==='task'?', как понять, что задача готова':', какие задачи добавить или объединить'}. Учитывай срок, приоритет, ответственных, заметки и комментарии. Если данных мало, предложи, что уточнить. Без markdown, без заголовков и вступлений, до 120 слов.\n\n${ctx}`;
+  if(mode==='advice')return `Ты помощник по планированию в приложении NQ. Пользователь открыл ${what}. Напиши короткий практичный совет по-русски: от трёх до пяти пунктов, каждый с новой строки и со знака «— ». Подскажи, с какого шага начать, на что обратить внимание, какие риски или вопросы стоит уточнить${kind==='task'?', как понять, что задача готова':', какие задачи добавить или объединить'}. Учитывай срок, приоритет, ответственных, заметки, комментарии и содержание файлов проекта, если они есть. Если данных мало, предложи, что уточнить. Без markdown, без заголовков и вступлений, до 120 слов.\n\n${ctx}`;
   const hist=(it.comments||[]).slice(-10).map(c=>`${c.who==='claude'?'Claude':'Пользователь'}: ${c.text}`).join('\n');
   return `Ты помощник в приложении NQ и обсуждаешь с пользователем ${what}. Отвечай по-русски, по делу и тепло, до 120 слов, без markdown. Если уместно, предложи конкретные следующие шаги. Не повторяй уже сказанное.\n\n${ctx}\n\nПереписка (последнее сообщение от пользователя):\n${hist}\n\nОтветь на последнее сообщение пользователя.`;
 }
@@ -3721,7 +3870,7 @@ const advClean=s=>String(s||'').replace(/```[\s\S]*?```/g,'').replace(/\*\*/g,''
 function advLocalTask(t){const li=[],d=diff(t.due),n=whoNames(t),closed=CLOSED.includes(t.status);
   if(!t.desc||t.desc.trim().length<15)li.push('Опишите результат одной фразой: как вы поймёте, что задача сделана.');
   else if(t.desc.length>240)li.push('Описание длинное: разбейте работу на 2–3 коротких шага и запишите их в заметки.');
-  if(t.repeat)li.push('Задача повторяется каждый день: выберите точное время и делайте её в одно и то же время.');
+  if(t.repeat)li.push(`Задача повторяется ${dowText(t.rdays)}: выберите точное время и делайте её в одно и то же время.`);
   else if(d===null)li.push('Срок не задан: назначьте дату, даже примерную, иначе задача будет откладываться.');
   else if(d<0&&!closed)li.push(`Срок прошёл ${-d} ${dayWord(-d)} назад: решите, делать сегодня или перенести на реальную дату, и запишите причину.`);
   else if(d<=2)li.push('Срок близко: поставьте первый шаг на сегодня и выделите на него 25 минут без отвлечений.');
@@ -3812,15 +3961,19 @@ function clRebase(){const td=TODAY();S.habits.forEach(h=>{if(h.base&&h.base!==td
 /* ---------- приложение <-> строки базы ---------- */
 const clInboxLabel=iso=>{const d=new Date(iso),td=new Date(),y=new Date();y.setDate(td.getDate()-1);const hm=`${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
   if(d.toDateString()===td.toDateString())return 'сегодня, '+hm;if(d.toDateString()===y.toDateString())return 'вчера, '+hm;return d.toLocaleDateString('ru-RU',{day:'numeric',month:'short'})+', '+hm;};
-const clTaskFrom=r=>mk({id:r.id,title:r.title,desc:r.description||'',assignees:r.assignees||[],created:r.created_on,due:r.due||'',status:r.status,prio:r.priority,project:r.project_id||null,focus:!!r.focus,repeat:r.repeat||'',start:r.start_on||'',endOn:r.end_on||'',doneOn:r.done_on||'',moves:r.moves||0,notes:r.notes||[],comments:r.comments||[],links:r.links||[],files:(r.files||[]).map(f=>({id:f.id,name:f.name,size:f.size,path:f.path,url:''})),advDone:!!r.advice_done});
+const clDow=a=>{if(!Array.isArray(a))return undefined;const o=Array(7).fill(false);a.forEach(n=>{if(n>=1&&n<=7)o[n-1]=true;});return o.every(Boolean)||!o.some(Boolean)?undefined:o;};
+const clWeekdays=a=>dowAll(a)?[1,2,3,4,5,6,7]:a.map((v,i)=>v?i+1:0).filter(Boolean);
+const clTaskFrom=r=>mk({rdays:clDow(r.repeat_days)||null,id:r.id,title:r.title,desc:r.description||'',assignees:r.assignees||[],created:r.created_on,due:r.due||'',status:r.status,prio:r.priority,project:r.project_id||null,focus:!!r.focus,repeat:r.repeat||'',start:r.start_on||'',endOn:r.end_on||'',doneOn:r.done_on||'',moves:r.moves||0,notes:r.notes||[],comments:r.comments||[],links:r.links||[],files:(r.files||[]).map(f=>({id:f.id,name:f.name,size:f.size,path:f.path,url:''})),advDone:!!r.advice_done});
 function clRows(){
   clRebase();const R={},uid=CL.user.id,put=(t,k,row)=>{R[t][k]=row;};CL_T.forEach(t=>{R[t]={};});
   S.team.slice(1).forEach(n=>{const key=n.toLowerCase();if(!CL.peopleIds[key])CL.peopleIds[key]=uuid();put('people',key,{id:CL.peopleIds[key],user_id:uid,name:n});});
-  S.projects.forEach(p=>put('projects',p.id,{id:p.id,user_id:uid,name:p.name,block:p.block||'alif',notes:p.notes||[],comments:p.comments||[],advice_done:!!p.advDone}));
-  S.tasks.forEach(x=>put('tasks',x.id,{id:x.id,user_id:uid,project_id:x.project||null,title:x.title,description:x.desc||'',assignees:whoNames(x),created_on:x.created||TODAY(),due:x.due||null,status:x.status,priority:x.prio,focus:!!x.focus,repeat:x.repeat||null,start_on:x.start||null,end_on:x.endOn||null,done_on:x.doneOn||null,moves:x.moves||0,notes:x.notes||[],comments:x.comments||[],links:x.links||[],files:(x.files||[]).filter(f=>f.path).map(f=>({id:f.id,name:f.name,size:f.size,path:f.path})),advice_done:!!x.advDone}));
+  if(S.projects.some(p=>(p.files||[]).some(f=>f.path)))CL.filesCol=true;
+  S.projects.forEach(p=>put('projects',p.id,Object.assign({id:p.id,user_id:uid,name:p.name,block:p.block||'alif',notes:p.notes||[],comments:p.comments||[],advice_done:!!p.advDone},CL.filesCol?{files:(p.files||[]).filter(f=>f.path).map(f=>({id:f.id,name:f.name,size:f.size,type:f.type||'',path:f.path,digest:f.digest||'',dAt:f.dAt||'',err:f.err||''}))}:{})));
+  if(!CL.sched&&(S.habits.some(h=>!dowAll(h.dow))||S.tasks.some(x=>x.rdays&&!dowAll(x.rdays))))CL.sched=true;
+  S.tasks.forEach(x=>put('tasks',x.id,Object.assign({id:x.id,user_id:uid,project_id:x.project||null,title:x.title,description:x.desc||'',assignees:whoNames(x),created_on:x.created||TODAY(),due:x.due||null,status:x.status,priority:x.prio,focus:!!x.focus,repeat:x.repeat||null,start_on:x.start||null,end_on:x.endOn||null,done_on:x.doneOn||null,moves:x.moves||0,notes:x.notes||[],comments:x.comments||[],links:x.links||[],files:(x.files||[]).filter(f=>f.path).map(f=>({id:f.id,name:f.name,size:f.size,path:f.path})),advice_done:!!x.advDone},CL.sched?{repeat_days:x.rdays&&!dowAll(x.rdays)?clWeekdays(x.rdays):null}:{})));
   S.inbox.forEach(i=>{if(!i.ts)i.ts=new Date().toISOString();put('inbox_items',i.id,{id:i.id,user_id:uid,text:i.text,created_at:i.ts});});
   S.ideas.forEach(d=>put('ideas',d.id,{id:d.id,user_id:uid,text:d.text,body:d.body||'',status:d.status,comments:d.comments||[]}));
-  S.habits.forEach(h=>{put('habits',h.id,{id:h.id,user_id:uid,name:h.name,time_of_day:h.time||'09:00'});clHabitDates(h).forEach(d=>put('habit_logs',h.id+'|'+d,{habit_id:h.id,user_id:uid,day:d}));});
+  S.habits.forEach(h=>{put('habits',h.id,Object.assign({id:h.id,user_id:uid,name:h.name,time_of_day:h.time||'09:00'},CL.sched?{weekdays:clWeekdays(h.dow)}:{}));clHabitDates(h).forEach(d=>put('habit_logs',h.id+'|'+d,{habit_id:h.id,user_id:uid,day:d}));});
   put('user_state','state',{user_id:uid,dev:{goal:S.dev.goal,days:S.dev.days,prog:S.dev.prog,notes:S.dev.notes,upd:S.dev.upd},settings:{pray:S.pray}});
   return R;
 }
@@ -3837,12 +3990,14 @@ async function clLoad(){
   const [people,projects,tasks,inbox,ideas,habits,logs,st]=await Promise.all([clAll('people',[['created_at',true],['id',true]]),clAll('projects',[['created_at',true],['id',true]]),clAll('tasks',[['created_at',true],['id',true]]),clAll('inbox_items',[['created_at',false],['id',true]]),clAll('ideas',[['created_at',false],['id',true]]),clAll('habits',[['created_at',true],['id',true]]),clAll('habit_logs',[['day',true],['habit_id',true]]),CL.sb.from('user_state').select('*').maybeSingle()]);
   if(st.error)throw st.error;
   S.team=['Я'].concat(people.map(p=>p.name));CL.peopleIds={};people.forEach(p=>{CL.peopleIds[p.name.toLowerCase()]=p.id;});
-  S.projects=projects.map(p=>({id:p.id,name:p.name,block:p.block,notes:p.notes||[],comments:p.comments||[],advDone:!!p.advice_done}));
+  S.projects=projects.map(p=>({id:p.id,name:p.name,block:p.block,notes:p.notes||[],comments:p.comments||[],advDone:!!p.advice_done,files:(p.files||[]).map(f=>Object.assign({},f,{url:'',busy:''}))}));
+  CL.filesCol=projects.some(p=>Array.isArray(p.files)&&p.files.length>0);
   S.tasks=tasks.map(clTaskFrom);
   S.inbox=inbox.map(r=>({id:r.id,text:r.text,t:clInboxLabel(r.created_at),ts:r.created_at}));
   S.ideas=ideas.map(r=>({id:r.id,text:r.text,body:r.body||'',status:r.status,comments:r.comments||[]}));
   const by={};logs.forEach(l=>{(by[l.habit_id]||(by[l.habit_id]=[])).push(l.day);});
-  S.habits=habits.map(h=>clHabitFrom(h,by[h.id]));
+  S.habits=habits.map(h=>{const o=clHabitFrom(h,by[h.id]);o.dow=clDow(h.weekdays);return o;});
+  CL.sched=habits.some(h=>Array.isArray(h.weekdays)&&h.weekdays.length<7)||tasks.some(r=>Array.isArray(r.repeat_days));
   S.archive=[];
   const dv=(st.data&&st.data.dev)||{};S.dev.goal=dv.goal||3;S.dev.days=dv.days||{};S.dev.prog=dv.prog||{};S.dev.notes=dv.notes||{};S.dev.upd=dv.upd||{};S.pray=prayMerge(((st.data&&st.data.settings)||{}).pray);PR.sig='';
   CL.snap=clSnapshot();CL.rej={};CL.lastLoad=Date.now();
@@ -3852,7 +4007,7 @@ async function clLoad(){
 const clErrKind=(e,st)=>{const s=st!==undefined?st:(e&&e.status),c=String(e&&e.code||''),m=String(e&&e.message||'');if(s===401||c==='PGRST301'||/jwt/i.test(m))return 'auth';if(s>=500||s===0||(!c&&/fetch|network|failed|load failed|abort|timeout|timed out/i.test(m)))return 'net';return 'data';};
 const clThrow=r=>{throw Object.assign(new Error((r.error&&r.error.message)||'ошибка'),{code:r.error&&r.error.code,status:r.status});};
 const clHuman=e=>{const m=String(e&&e.message||'');if(/check constraint/i.test(m))return 'значение не подходит по правилам базы';if(/foreign key/i.test(m))return 'связанная запись не найдена';if(/duplicate/i.test(m))return 'такая запись уже есть';return m.slice(0,120)||'ошибка';};
-function clReject(t,x,err){CL.rej[t+'|'+x[0]]=x[2];console.warn('NQ: запись отклонена базой',t,err&&err.message);toast('Не удалось сохранить запись: '+clHuman(err));}
+function clReject(t,x,err){CL.rej[t+'|'+x[0]]=x[2];if(/schema cache|column/i.test(String(err&&err.message))){toast('Нужно обновить базу: выполните в Supabase шаг SQL из файла nq_v3_migration.sql.');return;}console.warn('NQ: запись отклонена базой',t,err&&err.message);toast('Не удалось сохранить запись: '+clHuman(err));}
 const CL_CONF={people:'id',projects:'id',tasks:'id',inbox_items:'id',ideas:'id',habits:'id',habit_logs:'habit_id,day',user_state:'user_id'};
 async function clPush(t,rows){
   for(let i=0;i<rows.length;i+=100){const chunk=rows.slice(i,i+100),r=await CL.sb.from(t).upsert(chunk.map(x=>x[1]),{onConflict:CL_CONF[t]});
@@ -3887,7 +4042,7 @@ async function clFlush(){
 function clSoon(){if(!CL.on||!CL.user||!CL.snap)return;clearTimeout(CL.timer);CL.timer=setTimeout(clFlush,700);}
 /* ---------- вложения (Supabase Storage) ---------- */
 async function clSign(force){
-  if(!CL.on||!CL.sb)return;const items=[];S.tasks.forEach(x=>(x.files||[]).forEach(f=>{if(f.path&&(force||!f.url))items.push(f);}));
+  if(!CL.on||!CL.sb)return;const items=[];S.tasks.forEach(x=>(x.files||[]).forEach(f=>{if(f.path&&(force||!f.url))items.push(f);}));S.projects.forEach(q=>(q.files||[]).forEach(f=>{if(f.path&&(force||!f.url))items.push(f);}));
   if(!items.length)return;const r=await CL.sb.storage.from('attachments').createSignedUrls(items.map(f=>f.path),3600);
   if(r.data)r.data.forEach((d,i)=>{if(d&&d.signedUrl)items[i].url=d.signedUrl;});CL.signedAt=Date.now();}
 async function clUpload(x,files){
@@ -4127,7 +4282,7 @@ async function aiCloud(o){
   if(o.signal&&o.signal.aborted)throw {code:'cancelled'};
   let ses=null;try{ses=(await CL.sb.auth.getSession()).data.session;}catch(e){}
   if(!ses)throw {code:'auth'};
-  const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),NQ_CONFIG.aiTimeoutMs||70000),onAb=()=>ctl.abort();
+  const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),o.timeoutMs||NQ_CONFIG.aiTimeoutMs||70000),onAb=()=>ctl.abort();
   if(o.signal)o.signal.addEventListener('abort',onAb);
   let r,j={};
   try{r=await fetch(NQ_CONFIG.url+'/functions/v1/claude',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+ses.access_token,'apikey':NQ_CONFIG.key},body:JSON.stringify({kind:o.kind||'long',system:o.system||'',messages:o.messages}),signal:ctl.signal});j=await r.json().catch(()=>({}));}
@@ -4147,7 +4302,7 @@ async function aiChat(messages,system,signal){
 }
 const CHAT={busy:false};
 const chatText=html=>{try{return new DOMParser().parseFromString(String(html||''),'text/html').body.textContent||'';}catch(e){return '';}};
-function chatContext(){
+function chatContext(q){
   const td=TODAY(),wd=['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'][new Date().getDay()],cl=s=>String(s||'').replace(/\s+/g,' ').slice(0,120);
   const op=S.tasks.filter(x=>!CLOSED.includes(x.status)),late=op.filter(x=>x.due&&x.due<td);
   const fmt=x=>`- «${cl(x.title)}»: срок ${x.due||'нет'}, приоритет ${x.prio.toLowerCase()}, статус ${x.status.toLowerCase()}, ответственные ${whoText(x)}${x.project&&proj(x.project)?', проект «'+cl(proj(x.project).name)+'»':''}`;
@@ -4159,9 +4314,13 @@ function chatContext(){
   if(nodue.length)L.push('Задачи без срока:\n'+nodue.map(fmt).join('\n'));
   L.push(S.inbox.length?`Входящие, неразобранные (${S.inbox.length}, последние 10):\n`+S.inbox.slice(0,10).map(i=>'- '+cl(i.text)).join('\n'):'Входящие пусты.');
   if(S.ideas.length)L.push(`Идеи (${S.ideas.length}, последние 10):\n`+S.ideas.slice(0,10).map(d=>`- ${cl(d.text)} (${d.status})`).join('\n'));
-  if(S.habits.length)L.push('Ежедневные дела:\n'+S.habits.map(h=>`- ${cl(h.name)}${h.time?' ('+h.time+')':''}: сегодня ${h.days[6]?'отмечено':'не отмечено'}`).join('\n'));
+  if(S.habits.length)L.push('Ежедневные дела:\n'+S.habits.map(h=>`- ${cl(h.name)}${h.time?' ('+h.time+')':''}${dowAll(h.dow)?'':', '+dowText(h.dow)}: ${hOn(h,TODAY())?'сегодня '+(h.days[6]?'отмечено':'не отмечено'):'сегодня не по расписанию'}`).join('\n'));
+  const pj=S.projects.filter(x=>(x.files||[]).length);
+  if(pj.length)L.push('Проекты с файлами:\n'+pj.map(x=>`- «${cl(x.name)}»: ${x.files.map(f=>cl(f.name)).join(', ').slice(0,300)}`).join('\n'));
+  const ql=String(q||'').toLowerCase(),named=pj.filter(x=>x.name.length>=3&&ql.includes(x.name.toLowerCase())&&x.files.some(f=>f.digest));
+  named.slice(0,2).forEach(x=>L.push(`Содержание файлов проекта «${cl(x.name)}» (Claude прочитал их при загрузке):\n`+pfDigests(x,4000)));
   L.push('Саморазвитие:\n'+devContext());
-  return L.join('\n').slice(0,9000);
+  return L.join('\n').slice(0,14000);
 }
 async function chatAsk(v){
   if(CHAT.busy)return;CHAT.busy=true;
@@ -4169,7 +4328,7 @@ async function chatAsk(v){
   S.chat.push({who:'me',html:esc(v),text:v},wait);S.focusChat=true;render();
   const msgs=S.chat.filter(m=>!m.wait).slice(-11).map(m=>({role:m.who==='me'?'user':'assistant',content:String(m.text||chatText(m.html)).slice(0,4000)})).filter(m=>m.content.trim());
   let reply='',err=null;
-  try{const r=await aiChat(msgs,chatContext());reply=advClean(r&&r.text);if(!reply)throw {code:'empty_completion'};}catch(e){err=e||{};}
+  try{const r=await aiChat(msgs,chatContext(v));reply=advClean(r&&r.text);if(!reply)throw {code:'empty_completion'};}catch(e){err=e||{};}
   const i=S.chat.indexOf(wait);
   if(i>=0){
     if(!err)S.chat[i]={who:'bot',html:esc(reply).replace(/\n/g,'<br>'),text:reply};
