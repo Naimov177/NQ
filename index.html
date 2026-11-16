@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://wzhgxrjkspwvfenzactr.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://wzhgxrjkspwvfenzactr.supabase.co; media-src 'self' blob: https://wzhgxrjkspwvfenzactr.supabase.co; connect-src 'self' https://wzhgxrjkspwvfenzactr.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="manifest" href="manifest.webmanifest">
@@ -1199,6 +1199,58 @@ body.locked .app,body.locked .fab,body.locked #bgfx,body.locked #fxtop,body.lock
 .cmt-quick{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px}
 .chip-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:5px 12px;font:inherit;font-size:12.5px;cursor:pointer}
 .chip-btn:hover{border-color:var(--accent);color:var(--accent)}
+/* ---- v39: вложения ---- */
+.psec.files.compact .psec-head{border-bottom:0;flex-wrap:wrap;gap:8px 10px}
+.psec.files.compact{padding-bottom:0}
+.attsum{border:0;background:none;padding:0;margin:0;font:inherit;font-size:13px;color:var(--muted);cursor:pointer;text-align:left;min-width:0;flex:1 1 140px}
+.attsum:hover{color:var(--ink);text-decoration:underline dotted}
+.pfactbar{display:flex;gap:6px;align-items:center}
+dialog.att{width:min(940px,96vw);max-height:92vh;padding:0;overflow:hidden}
+dialog.att[open]{display:flex;flex-direction:column}
+.attwrap{position:relative;display:flex;flex-direction:column;min-height:0;max-height:92vh;flex:1}
+.atthead{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.atthead h2{margin:0;font-size:17px}
+.attname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:13px}
+.attbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 18px 6px}
+.attadd{cursor:pointer}
+.attlim{margin-left:auto}
+.atttabs{display:flex;flex-wrap:wrap;gap:6px;padding:6px 18px 10px}
+.atttab{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:99px;padding:4px 12px;font:inherit;font-size:12.5px;cursor:pointer}
+.atttab[aria-pressed="true"]{background:color-mix(in srgb,var(--accent) 14%,var(--surface));border-color:var(--accent);color:var(--accent);font-weight:600}
+.attbody{overflow:auto;padding:4px 18px 18px;display:flex;flex-direction:column;gap:18px;min-height:120px}
+.attsec h3{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);display:flex;align-items:center;gap:8px}
+.athumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.athumb{margin:0;display:flex;flex-direction:column;gap:4px;min-width:0}
+.athb{position:relative;aspect-ratio:1;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--soft);padding:0;cursor:zoom-in;display:block;width:100%}
+.athb img{width:100%;height:100%;object-fit:cover;display:block}
+.athph{display:grid;place-items:center;height:100%;color:var(--muted)}
+.athbusy{position:absolute;inset:0;display:grid;place-items:center;background:rgba(255,255,255,.55)}
+.athumb figcaption{display:flex;flex-direction:column;gap:2px;font-size:12px;min-width:0}
+.athr{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.aauh .atn{display:inline-flex;align-items:center;gap:6px}
+.atn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.alist{display:flex;flex-direction:column;gap:8px}
+.aaud{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;background:var(--surface)}
+.aauh{display:flex;align-items:center;gap:8px}
+.aaud audio{width:100%;height:36px}
+.atext{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;background:var(--surface)}
+.atxh{display:flex;align-items:center;gap:8px}
+.atti{flex:1;min-width:0;font-weight:600;border:0;background:transparent;font-size:14px;padding:4px 0}
+.attx{width:100%;box-sizing:border-box;font-size:14px;line-height:1.45;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--soft);resize:vertical}
+.alink{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:var(--surface)}
+.alink a{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.attform{display:flex;flex-direction:column;gap:8px;margin:6px 18px 4px;padding:12px;border:1px dashed var(--line);border-radius:12px}
+.attform input,.attform textarea{width:100%;box-sizing:border-box}
+.attfb{display:flex;gap:8px}
+.attlb{position:absolute;inset:0;z-index:6;background:rgba(8,10,14,.95);color:#fff;display:flex;flex-direction:column}
+.attlb-top{display:flex;align-items:center;gap:8px;padding:12px 16px}
+.attlb-img{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 8px 8px}
+.attlb-img img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px}
+.attlb-n{flex:none;width:40px;height:56px;border:0;border-radius:10px;background:rgba(255,255,255,.14);color:#fff;font-size:28px;cursor:pointer}
+.attlb-er{padding:0 16px;color:#ffb4a8}
+.attlb-dg{padding:8px 16px 14px;font-size:13px;max-height:30%;overflow:auto}
+.attlb-dg div{white-space:pre-wrap;margin-top:6px;opacity:.9}
+@media (max-width:640px){dialog.att{width:100vw;max-width:100vw;height:100vh;max-height:100vh;border-radius:0}.attwrap{max-height:100vh}.attlim{display:none}}
 /* ---- v38: файлы проекта ---- */
 .psec.files.drag{outline:2px dashed var(--accent);outline-offset:-4px;background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
 .pfbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
@@ -1637,10 +1689,18 @@ function vInbox(){
 }
 
 const trank=x=>x.status==='Завершена'?2:x.status==='Отменена'?1:0;
+/* порядок задач в списках: открытые выше закрытых; внутри по приоритету (Критический, Высокий, Средний, Низкий), затем по сроку; можно выбрать «по сроку» или «сначала новые» */
+const prioRank=x=>PRIOS.indexOf(x.prio);
+S.tsort=(()=>{try{const v=localStorage.getItem('nq-tsort');return ['prio','due','new'].includes(v)?v:'prio';}catch(e){return 'prio';}})();
+const TSORTS=[['prio','По приоритету'],['due','По сроку'],['new','Сначала новые']];
+const taskSort=(a,b)=>{const r=trank(a)-trank(b);if(r)return r;
+  if(S.tsort==='due')return (diff(a.due)??999)-(diff(b.due)??999)||prioRank(b)-prioRank(a);
+  if(S.tsort==='new')return String(b.created||'').localeCompare(String(a.created||''))||S.tasks.indexOf(b)-S.tasks.indexOf(a);
+  return prioRank(b)-prioRank(a)||(diff(a.due)??999)-(diff(b.due)??999);};
 function tBase(){const q=(S.tq||'').trim().toLowerCase();
   return S.tasks.filter(x=>(!S.f.project||x.project===S.f.project||(S.f.project==='none'&&!x.project))&&(!q||x.title.toLowerCase().includes(q)));}
 function tList(){const b=tBase();const l=S.f.status?b.filter(x=>x.status===S.f.status):b;
-  return [...l].sort((a,c)=>trank(a)-trank(c)||(diff(a.due)??999)-(diff(c.due)??999));}
+  return [...l].sort(taskSort);}
 function tpillsHtml(){const b=tBase();
   return ['',...STATUSES].map(s=>`<button type="button" class="tag" data-k="st" data-v="${s||'Все'}" data-act="f-tab" data-s="${esc(s)}" aria-pressed="${S.f.status===s}">${s||'Все'} ${s?b.filter(x=>x.status===s).length:b.length}</button>`).join('');}
 function tRowAll(x){const closed=CLOSED.includes(x.status),d=diff(x.due),late=d!==null&&d<0&&!closed;
@@ -1663,7 +1723,7 @@ function tasksFormHtml(){return `<div class="quick-add newtask" role="group" ari
 function tasksBlockHtml(){
   return `<div class="pfilter"><div class="counts" id="tpills" role="group" aria-label="Фильтр по статусу">${tpillsHtml()}</div>
     <div class="pf-right"><label class="search"><span class="sicon">${svgI('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>')}</span><input type="search" id="tsearch" placeholder="Поиск по названию" value="${esc(S.tq)}" aria-label="Поиск задачи по названию" autocomplete="off"></label>
-      <select data-change="f-project" aria-label="Фильтр по проекту"><option value="">Все проекты</option><option value="none"${S.f.project==='none'?' selected':''}>Без проекта</option>${S.projects.map(p=>`<option value="${p.id}"${S.f.project===p.id?' selected':''}>${esc(p.name)}</option>`).join('')}</select><span id="treset">${tresetHtml()}</span></div></div>
+      <select data-change="f-project" aria-label="Фильтр по проекту"><option value="">Все проекты</option><option value="none"${S.f.project==='none'?' selected':''}>Без проекта</option>${S.projects.map(p=>`<option value="${p.id}"${S.f.project===p.id?' selected':''}>${esc(p.name)}</option>`).join('')}</select><select data-change="t-sort" aria-label="Порядок задач">${TSORTS.map(o=>`<option value="${o[0]}"${S.tsort===o[0]?' selected':''}>${o[1]}</option>`).join('')}</select><span id="treset">${tresetHtml()}</span></div></div>
   <div id="tlist" style="margin-top:8px">${ttableHtml()}</div>`;}
 
 S.archive=[];
@@ -1727,7 +1787,7 @@ const sumHtml=id=>{const ts=S.tasks.filter(t=>t.project===id);const done=ts.filt
 function vProject(id){
   const p=proj(id);const ts=S.tasks.filter(t=>t.project===id);
   const fl=S.tf[id]||'';const rk=x=>x.status==='Завершена'?2:x.status==='Отменена'?1:0;
-  const shown=ts.filter(x=>!fl||x.status===fl).sort((a,b)=>rk(a)-rk(b));
+  const shown=ts.filter(x=>!fl||x.status===fl).sort(taskSort);
   const rows=shown.map(t=>{const d=diff(t.due);const closed=CLOSED.includes(t.status);const late=d!==null&&d<0&&!closed;
     return `<tr class="${closed?'done':''}" data-open="${t.id}">
       <td class="c-title"><div class="tcell"><button type="button" class="tlink t-title" data-act="task-open" data-id="${t.id}" title="Открыть задачу">${esc(t.title)}</button></div></td>
@@ -2786,7 +2846,7 @@ async function fileRead(owner,f,file,refresh){
   f.busy='';refresh();if(CL.on)clSoon();
 }
 function pfRead(pid,fid,file){const {p,f}=pfOf(pid,fid);return fileRead(p,f,file,()=>pfRefresh(pid));}
-function tfRead(tid,fid,file){const x=S.tasks.find(q=>q.id===tid),f=x&&(x.files||[]).find(q=>q.id===fid);return fileRead(x,f,file,()=>{});}
+function tfRead(tid,fid,file){const x=S.tasks.find(q=>q.id===tid),f=x&&(x.files||[]).find(q=>q.id===fid);return fileRead(x,f,file,()=>{if(ATT.open)attDraw();});}
 async function pfAdd(pid,files){
   const p=S.projects.find(x=>x.id===pid);if(!p||!files.length)return;p.files=p.files||[];const queue=[];
   for(const file of files){
@@ -2797,24 +2857,98 @@ async function pfAdd(pid,files){
     if(CL.on&&CL.user){const path=`${CL.user.id}/p-${pid}/${id}-${safe}`,r=await CL.sb.storage.from('attachments').upload(path,file,{contentType:file.type||'application/octet-stream',upsert:false});
       if(r.error){p.files=p.files.filter(x=>x!==rec);toast('Не удалось загрузить файл: '+clHuman(r.error));pfRefresh(pid);continue;}
       rec.path=path;}
-    rec.busy='';queue.push([id,file]);pfRefresh(pid);if(CL.on)clSoon();
+    rec.busy='';if(attKind(rec)!=='audio')queue.push([id,file]);pfRefresh(pid);if(CL.on)clSoon();
   }
   for(const [id,file] of queue)await pfRead(pid,id,file);
 }
-function pfDigests(p,cap){const fs=((p&&p.files)||[]).filter(f=>f.digest);if(!fs.length)return '';const per=Math.max(500,Math.floor(cap/fs.length));return fs.map(f=>`Файл «${f.name}»: ${f.digest.replace(/\s+/g,' ').slice(0,per)}`).join('\n');}
+function pfDigests(p,cap){const fs=((p&&p.files)||[]).filter(f=>f.digest);if(!fs.length)return '';const per=Math.max(500,Math.floor(cap/fs.length));return fs.map(f=>`${attLabel(f)} «${f.name}»: ${f.digest.replace(/\s+/g,' ').slice(0,per)}`).join('\n');}
+/* ---------- Вложения: компактная полоса на странице и окно со всеми вложениями (фото, аудио, файлы, тексты, ссылки) ---------- */
+const ATT={open:false,kind:'',id:'',tab:'all',lb:'',text:false,link:false,pending:false};
+const ATT_IMG=['png','jpg','jpeg','gif','webp','heic','heif','bmp','svg','avif'],ATT_AUD=['mp3','m4a','wav','ogg','oga','aac','flac','opus','wma'];
+const attKind=f=>f.kind==='text'?'text':(/^image\//.test(f.type||'')||ATT_IMG.includes(pfExt(f.name)))?'image':(/^audio\//.test(f.type||'')||ATT_AUD.includes(pfExt(f.name)))?'audio':'doc';
+const attLabel=f=>f.kind==='text'?'Текстовое вложение':'Файл';
+const attOwner=(kind,id)=>kind==='task'?S.tasks.find(x=>x.id===id):S.projects.find(x=>x.id===id);
+const attCount=o=>{const c={image:0,audio:0,doc:0,text:0,link:0};(o.files||[]).forEach(f=>c[attKind(f)]++);c.link=(o.links||[]).length;return c;};
+const attSummary=o=>{const c=attCount(o),q=[];if(c.image)q.push(`${c.image} фото`);if(c.audio)q.push(`${c.audio} аудио`);if(c.doc)q.push(`${c.doc} ${pl(c.doc,['файл','файла','файлов'])}`);if(c.text)q.push(`${c.text} ${pl(c.text,['текст','текста','текстов'])}`);if(c.link)q.push(`${c.link} ${pl(c.link,['ссылка','ссылки','ссылок'])}`);return q.join(' · ');};
+const attReadable=f=>attKind(f)==='text'||(attKind(f)!=='audio'&&pfKind(f.name,f.type)!=='other');
+const attReadStat=o=>{const r=(o.files||[]).filter(attReadable);return {total:r.length,read:r.filter(f=>f.digest).length};};
+const ICON_MUSIC='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>';
+const attDel=(kind,o,f)=>kind==='task'?`<button class="ibtn shown sm" type="button" data-act="td-file-del" data-id="${o.id}" data-n="${esc(f.id)}" aria-label="Удалить: ${esc(f.name)}">${ICON_TRASH}</button>`:`<button class="ibtn shown sm" type="button" data-act="pf-del" data-id="${o.id}" data-n="${esc(f.id)}" aria-label="Удалить: ${esc(f.name)}">${ICON_TRASH}</button>`;
 function pfCard(p,f){
+  const own=p.title!==undefined?'task':'project',k=attKind(f),can=attReadable(f)&&k!=='text';
   const st=f.busy==='upload'?'<span class="chip">Загружаю…</span>':f.busy==='read'?'<span class="chip"><i class="spin"></i>Claude читает…</span>':f.digest?'<span class="chip ok">Claude прочитал</span>':f.err?'<span class="chip warn">не прочитан</span>':'<span class="chip">ждёт чтения</span>';
-  const can=pfKind(f.name,f.type)!=='other';
   return `<div class="pfcard" data-pfid="${esc(f.id)}"><div class="pfhead"><span class="pfname">${ICON_FILE}${esc(f.name)}</span><span class="muted small">${esc(pfSize(f.size))}</span>${st}
-    <span class="pfact">${f.url?`<a class="btn small" href="${esc(f.url)}" download="${esc(f.name)}" target="_blank" rel="noopener">Открыть</a>`:''}${can&&!f.busy?`<button class="btn small" type="button" data-act="pf-read" data-id="${p.id}" data-n="${esc(f.id)}">${f.digest?'Прочитать заново':'Прочитать'}</button>`:''}<button class="ibtn shown sm" type="button" data-act="pf-del" data-id="${p.id}" data-n="${esc(f.id)}" aria-label="Удалить файл: ${esc(f.name)}">${ICON_TRASH}</button></span></div>
+    <span class="pfact">${f.url?`<a class="btn small" href="${esc(f.url)}" download="${esc(f.name)}" target="_blank" rel="noopener">Открыть</a>`:''}${can&&!f.busy?`<button class="btn small" type="button" data-act="${own==='task'?'tf-read':'pf-read'}" data-id="${p.id}" data-n="${esc(f.id)}">${f.digest?'Прочитать заново':'Прочитать'}</button>`:''}${attDel(own,p,f)}</span></div>
     ${f.err&&!f.busy?`<p class="nerr">${esc(f.err)}</p>`:''}${f.digest?`<details class="pfdig"><summary>Что Claude понял</summary><div class="pfdig-t">${esc(f.digest)}</div></details>`:''}</div>`;}
+/* компактная полоса вложений проекта: одна строка; всё остальное открывается в окне */
 function pfHtml(p){
-  const fs=p.files||[];
-  return `<section class="psec files" aria-labelledby="h-files" data-pf="${p.id}" data-pfdrop="${p.id}">
-    <header class="psec-head"><span class="psec-ico">${ICON_FILE}</span><div><h2 id="h-files">Файлы проекта</h2></div><span class="psec-count">${fs.length}</span></header>
-    <div class="psec-body"><div class="pfbar"><label class="btn small primary pfadd"><input type="file" multiple hidden id="pf-in" data-change="pf-add" data-id="${p.id}" aria-label="Добавить файлы проекта">Добавить файлы</label><span class="muted small">или перетащите их сюда</span></div>
-      ${fs.length?`<div class="pflist">${fs.map(f=>pfCard(p,f)).join('')}</div>`:'<div class="empty" style="padding:8px">Файлов пока нет.</div>'}</div></section>`;}
-function pfRefresh(pid){const el=[...document.querySelectorAll('[data-pf]')].find(x=>x.dataset.pf===pid),p=S.projects.find(x=>x.id===pid);if(!el||!p)return;const h=document.createElement('div');h.innerHTML=pfHtml(p);el.replaceWith(h.firstElementChild);}
+  const fs=p.files||[],sm=attSummary(p),rs=attReadStat(p);
+  return `<section class="psec files compact" aria-labelledby="h-files" data-pf="${p.id}" data-pfdrop="${p.id}">
+    <header class="psec-head"><span class="psec-ico">${ICON_FILE}</span><div><h2 id="h-files">Вложения проекта</h2></div>
+      <button type="button" class="attsum" data-act="att-open" data-kind="project" data-id="${p.id}" aria-label="Открыть вложения проекта">${sm?esc(sm):'пока пусто, перетащите файлы сюда'}${rs.total?` <span class="chip${rs.read===rs.total?' ok':''} small">Claude: ${rs.read} из ${rs.total}</span>`:''}</button>
+      <span class="psec-count">${fs.length}</span>
+      <span class="pfactbar"><label class="btn small primary pfadd"><input type="file" multiple hidden id="pf-in" data-change="pf-add" data-id="${p.id}" aria-label="Добавить файлы проекта">+ Добавить</label><button class="btn small" type="button" data-act="att-open" data-kind="project" data-id="${p.id}">Открыть</button></span></header></section>`;}
+function pfRefresh(pid){const el=[...document.querySelectorAll('[data-pf]')].find(x=>x.dataset.pf===pid),p=S.projects.find(x=>x.id===pid);if(el&&p){const h=document.createElement('div');h.innerHTML=pfHtml(p);el.replaceWith(h.firstElementChild);}if(ATT.open&&ATT.kind==='project'&&ATT.id===pid)attDraw();}
+/* загрузка в задачу или проект */
+function attUpload(kind,id,files){
+  if(!files.length)return;
+  if(kind==='project'){pfAdd(id,files);return;}
+  const x=S.tasks.find(q=>q.id===id);if(!x)return;
+  if(CL.on&&CL.user){clUpload(x,files);return;}
+  files.forEach(f=>{const rec={id:nid(),name:f.name,size:f.size,type:f.type||'',url:URL.createObjectURL(f),_file:f};x.files.push(rec);if(x.advDone&&AI_ON()&&attKind(rec)!=='audio')setTimeout(()=>tfRead(x.id,rec.id,f),0);});
+  render();}
+function attTextSave(){
+  const o=attOwner(ATT.kind,ATT.id);if(!o)return;const body=(($('#att-t-body')||{}).value||'').trim(),title=(($('#att-t-title')||{}).value||'').trim();
+  if(!body){toast('Сначала напишите текст.');return;}
+  o.files=o.files||[];o.files.push({id:nid(),kind:'text',name:title||'Текст '+(o.files.filter(f=>f.kind==='text').length+1),text:body.slice(0,20000),size:body.length,type:'text/plain',url:'',path:'',digest:body.slice(0,3500),dAt:TODAY(),err:'',busy:''});
+  ATT.text=false;if(CL.on)clSoon();if(ATT.kind==='task')render();else pfRefresh(ATT.id);}
+function attLinkAdd(){
+  const x=S.tasks.find(q=>q.id===ATT.id);if(!x)return;const url=normUrl((($('#att-link-url')||{}).value)||'');
+  if(!url){toast('Введи корректную ссылку, например https://example.com');return;}
+  x.links.push({id:nid(),url,title:((($('#att-link-title')||{}).value)||'').trim()});ATT.link=false;render();}
+function attLbStep(dl){const o=attOwner(ATT.kind,ATT.id);if(!o)return;const im=(o.files||[]).filter(f=>attKind(f)==='image'),i=im.findIndex(f=>f.id===ATT.lb);if(i<0||!im.length)return;ATT.lb=im[(i+dl+im.length)%im.length].id;attDraw();}
+function attShow(){const d=$('#dlg');d.className='wide att';if(!d.open)d.showModal();attDraw(true);const c=d.querySelector('[data-act="att-close"]');if(c)c.focus();}
+function attDraw(force){
+  const d=$('#dlg');if(!ATT.open||!d)return;const o=attOwner(ATT.kind,ATT.id);if(!o){ATT.open=false;if(d.open)d.close();return;}
+  if(!force&&[...d.querySelectorAll('audio')].some(a=>!a.paused)){ATT.pending=true;return;}
+  ATT.pending=false;
+  const keep={};['att-t-title','att-t-body','att-link-url','att-link-title'].forEach(i=>{const e=d.querySelector('#'+i);if(e)keep[i]=e.value;});
+  const bodyEl=d.querySelector('.attbody'),sc=bodyEl?bodyEl.scrollTop:0;
+  const isT=ATT.kind==='task',files=o.files||[],links=isT?(o.links||[]):[],c=attCount(o),by=k=>files.filter(f=>attKind(f)===k);
+  const tabs=[['all','Все',files.length+links.length],['image','Фото',c.image],['audio','Аудио',c.audio],['doc','Файлы',c.doc],['text','Тексты',c.text]].concat(isT?[['link','Ссылки',c.link]]:[]).filter(x=>x[0]==='all'||x[2]>0);
+  if(!tabs.some(x=>x[0]===ATT.tab))ATT.tab='all';
+  const show=k=>ATT.tab==='all'||ATT.tab===k,imgs=by('image'),auds=by('audio'),docs=by('doc'),txts=by('text');
+  const addB=(acc,lab)=>`<label class="btn small attadd"><input type="file" multiple hidden ${acc?`accept="${acc}" `:''}data-change="att-up" data-kind="${ATT.kind}" data-id="${ATT.id}" aria-label="${lab}">${lab}</label>`;
+  const sec=(k,title,n,html)=>show(k)&&n?`<section class="attsec" data-sec="${k}"><h3>${title}<span class="cnt">${n}</span></h3>${html}</section>`:'';
+  const thumbs=`<div class="athumbs">${imgs.map(f=>`<figure class="athumb"><button type="button" class="athb" data-act="att-lb" data-n="${esc(f.id)}" aria-label="Открыть фото: ${esc(f.name)}">${f.url?`<img src="${esc(f.url)}" alt="${esc(f.name)}" loading="lazy">`:`<span class="athph">${ICON_FILE}</span>`}${f.busy==='upload'?'<span class="athbusy"><i class="spin"></i></span>':''}</button><figcaption><span class="atn">${esc(f.name)}</span><span class="athr">${f.busy==='read'?'<i class="spin"></i>':f.digest?'<span class="chip ok small">Claude ✓</span>':f.err?'<span class="chip warn small">не прочитан</span>':'<span></span>'}${attDel(ATT.kind,o,f)}</span></figcaption></figure>`).join('')}</div>`;
+  const audios=`<div class="alist">${auds.map(f=>`<div class="aaud"><div class="aauh"><span class="atn">${ICON_MUSIC} ${esc(f.name)}</span><span class="muted small">${esc(pfSize(f.size))}</span>${attDel(ATT.kind,o,f)}</div>${f.url?`<audio controls preload="none" src="${esc(f.url)}"></audio>`:'<span class="muted small">Файл ещё загружается…</span>'}</div>`).join('')}</div>`;
+  const docsH=`<div class="pflist">${docs.map(f=>pfCard(o,f)).join('')}</div>`;
+  const texts=`<div class="alist">${txts.map(f=>`<div class="atext"><div class="atxh"><input class="atti" type="text" data-noai value="${esc(f.name)}" data-change="att-text-title" data-n="${esc(f.id)}" aria-label="Заголовок текста"><span class="chip ok small">Claude учитывает</span>${attDel(ATT.kind,o,f)}</div><textarea class="autog attx" rows="3" data-noai data-change="att-text-body" data-n="${esc(f.id)}" aria-label="Текст вложения">${esc(f.text||'')}</textarea></div>`).join('')}</div>`;
+  const linksH=`<div class="alist">${links.map(l=>{let host='';try{host=new URL(l.url).hostname;}catch(e){}return `<div class="alink"><span class="fico lk">${ICON_LINK}</span><a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.title||host||l.url)}</a><span class="muted small">${esc(host)}</span><button class="ibtn shown sm" type="button" data-act="td-link-del" data-id="${o.id}" data-n="${l.id}" aria-label="Удалить ссылку">${ICON_X}</button></div>`;}).join('')}</div>`;
+  const tform=ATT.text?`<div class="attform"><input type="text" id="att-t-title" data-noai placeholder="Заголовок (необязательно)" aria-label="Заголовок текста"><textarea id="att-t-body" class="autog" rows="4" data-noai placeholder="Текст вложения: заметка, переписка, фрагмент документа…" aria-label="Текст вложения"></textarea><div class="attfb"><button class="btn small primary" type="button" data-act="att-text-save">Сохранить</button><button class="btn small" type="button" data-act="att-text-cancel">Отмена</button></div></div>`:'';
+  const lform=ATT.link?`<div class="attform"><input type="text" id="att-link-url" data-noai placeholder="https://…" aria-label="Адрес ссылки"><input type="text" id="att-link-title" data-noai placeholder="Название (необязательно)" aria-label="Название ссылки"><div class="attfb"><button class="btn small primary" type="button" data-act="att-link-add">Добавить</button><button class="btn small" type="button" data-act="att-link-cancel">Отмена</button></div></div>`:'';
+  const empty=!(files.length+links.length)?'<div class="empty" style="padding:18px">Вложений пока нет. Добавьте фото, аудио, файл или текст кнопками выше'+(isT?', либо ссылку':'')+'.</div>':'';
+  let lb='';
+  if(ATT.lb){const i=imgs.findIndex(f=>f.id===ATT.lb);if(i<0)ATT.lb='';else{const f=imgs[i];
+    lb=`<div class="attlb" role="dialog" aria-label="Просмотр фото"><div class="attlb-top"><span class="atn">${esc(f.name)} · ${i+1} из ${imgs.length}</span>${f.url?`<a class="btn small" href="${esc(f.url)}" download="${esc(f.name)}" target="_blank" rel="noopener">Скачать</a>`:''}${attReadable(f)&&!f.busy?`<button class="btn small" type="button" data-act="${ATT.kind==='task'?'tf-read':'pf-read'}" data-id="${o.id}" data-n="${esc(f.id)}">${f.digest?'Claude: прочитать заново':'Claude: прочитать'}</button>`:''}<button class="btn small" type="button" data-act="att-lb-close" aria-label="Закрыть просмотр">Закрыть</button></div>
+      <div class="attlb-img">${imgs.length>1?'<button type="button" class="attlb-n" data-act="att-lb-step" data-d="-1" aria-label="Предыдущее фото">‹</button>':''}${f.url?`<img src="${esc(f.url)}" alt="${esc(f.name)}">`:'<span class="muted">Фото недоступно</span>'}${imgs.length>1?'<button type="button" class="attlb-n" data-act="att-lb-step" data-d="1" aria-label="Следующее фото">›</button>':''}</div>
+      ${f.err&&!f.busy?`<p class="nerr attlb-er">${esc(f.err)}</p>`:''}${f.digest?`<details class="attlb-dg"><summary>Что Claude понял</summary><div>${esc(f.digest)}</div></details>`:''}</div>`;}}
+  d.className='wide att';
+  d.innerHTML=`<div class="attwrap"><div class="atthead"><h2 id="att-h">Вложения</h2><span class="attname">${esc(isT?o.title:o.name)}</span><button type="button" class="btn small" data-act="att-close" aria-label="Закрыть окно">Закрыть</button></div>
+    <div class="attbar">${addB('image/*','+ Фото')}${addB('audio/*','+ Аудио')}${addB('','+ Файл')}<button class="btn small" type="button" data-act="att-text-new">+ Текст</button>${isT?'<button class="btn small" type="button" data-act="att-link-new">+ Ссылка</button>':''}<span class="muted small attlim">до 10 МБ на файл</span></div>
+    ${tform}${lform}
+    ${tabs.length>1?`<div class="atttabs" role="group" aria-label="Тип вложений">${tabs.map(x=>`<button type="button" class="atttab" data-act="att-tab" data-tab="${x[0]}" aria-pressed="${ATT.tab===x[0]}">${x[1]} ${x[2]}</button>`).join('')}</div>`:''}
+    <div class="attbody">${empty}${sec('image','Фото',imgs.length,thumbs)}${sec('audio','Аудио',auds.length,audios)}${sec('doc','Файлы',docs.length,docsH)}${sec('text','Тексты',txts.length,texts)}${sec('link','Ссылки',links.length,linksH)}</div>${lb}</div>`;
+  Object.entries(keep).forEach(([i,v])=>{const e=d.querySelector('#'+i);if(e)e.value=v;});
+  const nb=d.querySelector('.attbody');if(nb)nb.scrollTop=sc;d.querySelectorAll('.autog').forEach(autosize);
+}
+{const _r=render;render=function(){const r=_r.apply(this,arguments);if(ATT.open)attDraw();return r;};}
+document.addEventListener('pause',e=>{if(ATT.pending&&e.target&&e.target.tagName==='AUDIO'){ATT.pending=false;attDraw();}},true);
+document.addEventListener('ended',e=>{if(ATT.pending&&e.target&&e.target.tagName==='AUDIO'){ATT.pending=false;attDraw();}},true);
+document.addEventListener('keydown',e=>{if(!ATT.open||!ATT.lb)return;if(e.key==='ArrowLeft'){e.preventDefault();attLbStep(-1);}else if(e.key==='ArrowRight'){e.preventDefault();attLbStep(1);}});
+{const dl=$('#dlg');if(dl){dl.addEventListener('close',()=>{ATT.open=false;ATT.lb='';ATT.text=false;ATT.link=false;});
+  dl.addEventListener('cancel',e=>{if(ATT.open&&ATT.lb){e.preventDefault();ATT.lb='';attDraw();}});
+  dl.addEventListener('click',e=>{if(ATT.open&&e.target===dl&&dl.open){ATT.open=false;ATT.lb='';dl.close();}});}}
 document.addEventListener('dragover',e=>{const z=e.target.closest&&e.target.closest('[data-pfdrop]');if(z){e.preventDefault();z.classList.add('drag');}});
 document.addEventListener('dragleave',e=>{const z=e.target.closest&&e.target.closest('[data-pfdrop]');if(z&&!z.contains(e.relatedTarget))z.classList.remove('drag');});
 document.addEventListener('drop',e=>{const z=e.target.closest&&e.target.closest('[data-pfdrop]');if(!z)return;e.preventDefault();z.classList.remove('drag');const fl=[...((e.dataTransfer&&e.dataTransfer.files)||[])];if(fl.length)pfAdd(z.dataset.pfdrop,fl);});
@@ -2870,7 +3004,7 @@ function autosize(el){el.style.height='auto';el.style.height=(el.scrollHeight+el
 function toast(t,act){const n=$('#toast');n.textContent=t;n.classList.toggle('has-act',!!act);
   if(act){const b=document.createElement('button');b.type='button';b.className='toast-act';b.textContent=act.label;b.addEventListener('click',()=>{n.classList.remove('show');act.fn();});n.appendChild(b);}
   n.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(()=>n.classList.remove('show'),act?6500:2800);}
-function showDlg(html,cls){const d=$('#dlg');d.className=cls||'';d.innerHTML=html;if(!d.open)d.showModal();}
+function showDlg(html,cls){ATT.open=false;const d=$('#dlg');d.className=cls||'';d.innerHTML=html;if(!d.open)d.showModal();}
 
 /* ---------- улучшение текста (Claude через `sample`, запасной вариант: простые правила) ---------- */
 const ICON_SPARK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>';
@@ -3107,12 +3241,10 @@ function vTask(id){
       ${pan('k-note',ICON_NOTE,'Заметки',t.notes.length,'',`<div class="addrow"><textarea id="td-note" rows="2" placeholder="Новая заметка…" aria-label="Новая заметка"></textarea><button class="btn small primary" data-act="td-note-add" data-id="${t.id}" type="button">Добавить</button></div>${notes}`,'sec-note')}
       <div id="td-comments">${pan('k-cmt',ICON_CHAT,AI_ON()?'Комментарии и советы Claude':'Комментарии и советы',t.comments.length,'',thHtml('task',t))}</div>
     </div>
-    ${(()=>{const nAtt=t.files.length+t.links.length,linkOpen=S.addOpen==='link:'+t.id;
-      const chips=t.files.map(f=>`<span class="achip fitem">${ICON_FILE}${f.url?`<a href="${esc(f.url)}" download="${esc(f.name)}">${esc(f.name)}</a>`:`<b>${esc(f.name)}</b>`}<span class="muted small">${fsize(f.size)}</span>${f.busy==='read'?'<span class="chip small"><i class="spin"></i>читает</span>':f.digest?'<span class="chip ok small">Claude прочитал</span>':''}<button class="ibtn shown sm" data-act="td-file-del" data-id="${t.id}" data-n="${f.id}" type="button" aria-label="Удалить файл ${esc(f.name)}">${ICON_X}</button></span>`).join('')
-        +t.links.map(l=>{let host='';try{host=new URL(l.url).hostname;}catch(e){}return `<span class="achip litem">${ICON_LINK}<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer" title="${esc(host)}">${esc(l.title||host||l.url)}</a><button class="ibtn shown sm" data-act="td-link-del" data-id="${t.id}" data-n="${l.id}" type="button" aria-label="Удалить ссылку">${ICON_X}</button></span>`;}).join('');
+    ${(()=>{const nAtt=t.files.length+t.links.length,linkOpen=S.addOpen==='link:'+t.id,sm=attSummary(t),rs=attReadStat(t),chips=nAtt;
       const form=linkOpen?`<div class="addrow" style="margin-top:${chips?8:0}px"><input type="text" id="td-link-url" data-noai data-enter="td-link-btn" placeholder="https://…" aria-label="Адрес ссылки" style="flex:2 1 0"><input type="text" id="td-link-title" data-noai data-enter="td-link-btn" placeholder="Название (необязательно)" aria-label="Название ссылки" style="flex:1 1 0"><button class="btn small primary" id="td-link-btn" data-act="td-link-add" data-id="${t.id}" type="button">Добавить</button><button class="btn small" data-act="addt-close" type="button">Отмена</button></div>`:'';
-      const body=(chips?`<div class="achips">${chips}</div>`:'')+form;
-      return pan('k-att',ICON_ATT,'Вложения',nAtt,`<label class="btn small" for="td-file" style="cursor:pointer" ${CLOUD?'':'title="В макете файлы живут до обновления страницы"'}>+ Файл</label><input type="file" id="td-file" multiple hidden data-change="td-file" data-id="${t.id}">${linkOpen?'':`<button class="btn small" data-act="addt-open" data-k="link:${t.id}" type="button">+ Ссылка</button>`}`,body,body?'box-file box-link':'box-file box-link att-empty');})()}
+      const body=(nAtt?`<button type="button" class="attsum" data-act="att-open" data-kind="task" data-id="${t.id}" aria-label="Открыть вложения задачи">${esc(sm)}${rs.total?` <span class="chip${rs.read===rs.total?' ok':''} small">Claude: ${rs.read} из ${rs.total}</span>`:''}</button>`:'')+form;
+      return pan('k-att',ICON_ATT,'Вложения',nAtt,`<label class="btn small" for="td-file" style="cursor:pointer" ${CLOUD?'':'title="В макете файлы живут до обновления страницы"'}>+ Файл</label><input type="file" id="td-file" multiple hidden data-change="td-file" data-id="${t.id}">${linkOpen?'':`<button class="btn small" data-act="addt-open" data-k="link:${t.id}" type="button">+ Ссылка</button>`}<button class="btn small" data-act="att-open" data-kind="task" data-id="${t.id}" type="button">Открыть</button>`,body,body?'box-file box-link':'box-file box-link att-empty');})()}
   </div>`;
 }
 
@@ -3190,6 +3322,19 @@ document.addEventListener('click',e=>{
     case 'hab-dow-work':{const h=S.habits.find(x=>x.id===id);if(h)h.dow=[true,true,true,true,true,false,false];break;}
     case 'td-dow':{const x=task();if(!x)return;const a=(x.rdays||Array(7).fill(true)).slice(),i=+b.dataset.i;a[i]=!a[i];if(!a.some(Boolean)){toast('Выберите хотя бы один день.');return;}x.rdays=dowAll(a)?null:a;break;}
     case 'pf-read':pfRead(id,b.dataset.n,null);return;
+    case 'tf-read':tfRead(id,b.dataset.n,null);return;
+    case 'att-open':{ATT.kind=b.dataset.kind;ATT.id=b.dataset.id;ATT.tab=b.dataset.tab||'all';ATT.open=true;ATT.text=false;ATT.link=false;ATT.lb='';attShow();return;}
+    case 'att-close':{const dl=$('#dlg');ATT.open=false;ATT.lb='';if(dl.open)dl.close();return;}
+    case 'att-tab':ATT.tab=b.dataset.tab;ATT.lb='';attDraw();return;
+    case 'att-text-new':ATT.text=true;ATT.link=false;attDraw();setTimeout(()=>{const e=$('#att-t-body');if(e)e.focus();},0);return;
+    case 'att-text-cancel':ATT.text=false;attDraw();return;
+    case 'att-text-save':attTextSave();return;
+    case 'att-link-new':ATT.link=true;ATT.text=false;attDraw();setTimeout(()=>{const e=$('#att-link-url');if(e)e.focus();},0);return;
+    case 'att-link-cancel':ATT.link=false;attDraw();return;
+    case 'att-link-add':attLinkAdd();return;
+    case 'att-lb':ATT.lb=b.dataset.n;attDraw();return;
+    case 'att-lb-close':ATT.lb='';attDraw();return;
+    case 'att-lb-step':attLbStep(+b.dataset.d);return;
     case 'pf-del':{const p=S.projects.find(x=>x.id===id);if(!p)return;const i=(p.files||[]).findIndex(f=>f.id===b.dataset.n);if(i<0)return;const f=p.files.splice(i,1)[0];pfRefresh(id);const tm=setTimeout(()=>clRm([f]),PF_UNDO_MS);
       toast('Файл удалён.',{label:'Вернуть',fn:()=>{clearTimeout(tm);p.files.splice(Math.min(i,p.files.length),0,f);pfRefresh(id);if(CL.on)clSoon();}});if(CL.on)clSoon();return;}
     case 'dev-refresh':courseRefresh(id);return;
@@ -3348,6 +3493,10 @@ document.addEventListener('change',e=>{
     if(el)el.classList.toggle('late',d!==null&&d<0&&!CLOSED.includes(x.status));
     const sm=$('#tsum');if(sm)sm.innerHTML=sumHtml(x.project);};
   if(k==='pn-before'){PN.before=[0,5,10,15].includes(+v)?+v:0;pnSave();render();return;}
+  if(k==='att-up'){const fl=[...(s.files||[])];s.value='';attUpload(s.dataset.kind,s.dataset.id,fl);return;}
+  if(k==='att-text-title'||k==='att-text-body'){const o=attOwner(ATT.kind,ATT.id),f=o&&(o.files||[]).find(q=>q.id===s.dataset.n);if(!f)return;
+    if(k==='att-text-title')f.name=s.value.trim()||f.name;else{f.text=s.value.slice(0,20000);f.size=f.text.length;f.digest=f.text.trim().slice(0,3500);f.dAt=TODAY();}
+    if(CL.on)clSoon();return;}
   if(k==='pf-add'){const fl=[...(s.files||[])];s.value='';pfAdd(s.dataset.id,fl);return;}
   if(k==='pray-city'){S.pray.city=prayCity(v).id;praySave();render();return;}
   if(k==='pray-adj'){S.pray.adj[s.dataset.k]=Math.max(-30,Math.min(30,Math.round(Number(v))||0));praySave();render();return;}
@@ -3371,7 +3520,7 @@ document.addEventListener('change',e=>{
   if(k==='td-start'){task().start=v||TODAY();return;}
   if(k==='td-status'){setStatus(task(),v);s.parentElement.dataset.v=v;return;}
   if(k==='td-prio'){task().prio=v;s.parentElement.dataset.v=v;return;}
-  if(k==='td-file'){const x=task();if(CL.on&&CL.user){clUpload(x,[...s.files]);s.value='';return;}[...s.files].forEach(f=>{const rec={id:nid(),name:f.name,size:f.size,type:f.type||'',url:URL.createObjectURL(f),_file:f};x.files.push(rec);if(x.advDone&&AI_ON())setTimeout(()=>tfRead(x.id,rec.id,f),0);});s.value='';render();return;}
+  if(k==='td-file'){const x=task(),fl=[...s.files];s.value='';attUpload('task',x.id,fl);return;}
   if(k==='idea-title'){if(S.draft){S.draft.title=v;ideaBarRefresh();}return;}
   if(k==='hab-time'){const h=S.habits.find(x=>x.id===id);if(v)h.time=v;return;}
   if(k==='p-sort'){S.psort=v;render();return;}
@@ -3382,6 +3531,7 @@ document.addEventListener('change',e=>{
   else if(k==='idea-status')S.ideas.find(x=>x.id===id).status=v;
   else if(k==='f-project')S.f.project=v;
   else if(k==='f-status')S.f.status=v;
+  else if(k==='t-sort'){S.tsort=['prio','due','new'].includes(v)?v:'prio';try{localStorage.setItem('nq-tsort',S.tsort);}catch(e){}}
   render();
 });
 document.addEventListener('input',e=>{if(e.target.classList&&e.target.classList.contains('autog'))autosize(e.target);if(e.target.id==='note-in'&&e.target.dataset.nk)S.dev.draft[e.target.dataset.nk]=e.target.value;if(e.target.id==='mv-date')syncQuick('#mv-date');if(e.target.id==='mk-due')syncQuick('#mk-due');if(AI.target===e.target)aiPlace();if(e.target.id==='idea-body'){if(S.draft)S.draft.body=e.target.value;autosize(e.target);ideaBarRefresh();return;}
@@ -3902,12 +4052,12 @@ function advKnow(kind,it){
   const pj=kind==='task'?((it.project&&S.projects.find(q=>q.id===it.project))||null):it,cl=(s,n)=>String(s||'').replace(/\s+/g,' ').trim().slice(0,n),st={files:0,tfiles:0,notes:0,tasks:0,exp:0};
   let context='',focus='';
   if(pj){const notes=(pj.notes||[]).slice(-25),files=(pj.files||[]).filter(f=>f.digest);st.notes=(pj.notes||[]).length;st.files=files.length;
-    context=`Проект «${pj.name}» (${BLABEL[pj.block]||'личный'}).\n`+(notes.length?`Заметки проекта:\n${notes.map(n=>'— '+cl(n.text,700)).join('\n')}`:'Заметок проекта нет.')+'\n'+(files.length?`Файлы проекта (их содержание Claude прочитал при загрузке):\n${files.map(f=>`Файл «${f.name}»:\n${String(f.digest).slice(0,3000)}`).join('\n\n')}`:'Файлов проекта нет.');
+    context=`Проект «${pj.name}» (${BLABEL[pj.block]||'личный'}).\n`+(notes.length?`Заметки проекта:\n${notes.map(n=>'— '+cl(n.text,700)).join('\n')}`:'Заметок проекта нет.')+'\n'+(files.length?`Файлы проекта (их содержание Claude прочитал при загрузке):\n${files.map(f=>`${attLabel(f)} «${f.name}»:\n${String(f.digest).slice(0,3000)}`).join('\n\n')}`:'Файлов проекта нет.');
     context=context.slice(0,24000);}
   const ts=pj?S.tasks.filter(x=>x.project===pj.id):[];st.tasks=ts.length;
   const fmtT=x=>`— ${cl(x.title,120)} [${x.status}, ${x.prio}${x.repeat?', повторяется '+dowText(x.rdays):x.due?', срок '+fdate(x.due):''}${whoNames(x).length?', '+whoNames(x).join('/'):''}]`;
   if(kind==='task'){const n=whoNames(it),nt=(it.notes||[]).slice(-12).map(x=>'— '+cl(x.text,500)),others=ts.filter(x=>x.id!==it.id);
-    focus=(others.length?`Остальные задачи проекта:\n${others.slice(0,40).map(fmtT).join('\n')}\n\n`:'')+`ОБСУЖДАЕМАЯ ЗАДАЧА\nНазвание: ${it.title}\nОписание: ${cl(it.desc||'нет',1500)}\nПроект: ${it.project?pname(it.project):'без проекта'}\nСтатус: ${it.status}. Приоритет: ${it.prio}.\nСрок: ${it.repeat?'повторяется '+dowText(it.rdays):it.due?`${fdate(it.due)} (${dueLabel(it.due)})`:'не задан'}\nОтветственные: ${n.length?n.join(', '):'не назначены'}`+(it.moves?`\nСрок переносили ${it.moves} раз.`:'')+(nt.length?`\nЗаметки к задаче:\n${nt.join('\n')}`:'')+(()=>{const fd=(it.files||[]).filter(f=>f.digest),un=(it.files||[]).filter(f=>!f.digest);st.tfiles=fd.length;return (fd.length?`\nФайлы задачи (Claude прочитал их):\n${fd.map(f=>`Файл «${cl(f.name,60)}»:\n${String(f.digest).slice(0,2500)}`).join('\n\n')}`:'')+(un.length?`\nФайлы задачи, которые не удалось прочитать: ${un.map(f=>cl(f.name,60)).join(', ')}`:'');})();}
+    focus=(others.length?`Остальные задачи проекта:\n${others.slice(0,40).map(fmtT).join('\n')}\n\n`:'')+`ОБСУЖДАЕМАЯ ЗАДАЧА\nНазвание: ${it.title}\nОписание: ${cl(it.desc||'нет',1500)}\nПроект: ${it.project?pname(it.project):'без проекта'}\nСтатус: ${it.status}. Приоритет: ${it.prio}.\nСрок: ${it.repeat?'повторяется '+dowText(it.rdays):it.due?`${fdate(it.due)} (${dueLabel(it.due)})`:'не задан'}\nОтветственные: ${n.length?n.join(', '):'не назначены'}`+(it.moves?`\nСрок переносили ${it.moves} раз.`:'')+(nt.length?`\nЗаметки к задаче:\n${nt.join('\n')}`:'')+(()=>{const fd=(it.files||[]).filter(f=>f.digest),un=(it.files||[]).filter(f=>!f.digest);st.tfiles=fd.length;return (fd.length?`\nФайлы и тексты задачи (Claude прочитал их):\n${fd.map(f=>`${attLabel(f)} «${cl(f.name,60)}»:\n${String(f.digest).slice(0,2500)}`).join('\n\n')}`:'')+(un.length?`\nФайлы задачи, которые не удалось прочитать: ${un.map(f=>cl(f.name,60)).join(', ')}`:'');})();}
   else{const open=ts.filter(x=>!CLOSED.includes(x.status)),late=open.filter(x=>{const d=diff(x.due);return d!==null&&d<0&&!x.repeat;});
     focus=`ОБСУЖДАЕМЫЙ ПРОЕКТ: ${it.name}\nЗадач: ${ts.length}, открытых: ${open.length}, просроченных: ${late.length}.\n`+(ts.slice(0,50).map(fmtT).join('\n')||'Задач пока нет.');}
   const ex=advExperience(kind,it);st.exp=ex.n;
@@ -4066,10 +4216,10 @@ const clTaskFrom=r=>mk({rdays:clDow(r.repeat_days)||null,id:r.id,title:r.title,d
 function clRows(){
   clRebase();const R={},uid=CL.user.id,put=(t,k,row)=>{R[t][k]=row;};CL_T.forEach(t=>{R[t]={};});
   S.team.slice(1).forEach(n=>{const key=n.toLowerCase();if(!CL.peopleIds[key])CL.peopleIds[key]=uuid();put('people',key,{id:CL.peopleIds[key],user_id:uid,name:n});});
-  if(S.projects.some(p=>(p.files||[]).some(f=>f.path)))CL.filesCol=true;
-  S.projects.forEach(p=>put('projects',p.id,Object.assign({id:p.id,user_id:uid,name:p.name,block:p.block||'alif',notes:p.notes||[],comments:p.comments||[],advice_done:!!p.advDone},CL.filesCol?{files:(p.files||[]).filter(f=>f.path).map(f=>({id:f.id,name:f.name,size:f.size,type:f.type||'',path:f.path,digest:f.digest||'',dAt:f.dAt||'',err:f.err||''}))}:{})));
+  if(S.projects.some(p=>(p.files||[]).some(f=>f.path||f.kind==='text')))CL.filesCol=true;
+  S.projects.forEach(p=>put('projects',p.id,Object.assign({id:p.id,user_id:uid,name:p.name,block:p.block||'alif',notes:p.notes||[],comments:p.comments||[],advice_done:!!p.advDone},CL.filesCol?{files:(p.files||[]).filter(f=>f.path||f.kind==='text').map(f=>({id:f.id,name:f.name,size:f.size,type:f.type||'',path:f.path||'',kind:f.kind||'',text:f.kind==='text'?(f.text||''):'',digest:f.digest||'',dAt:f.dAt||'',err:f.err||''}))}:{})));
   if(!CL.sched&&(S.habits.some(h=>!dowAll(h.dow))||S.tasks.some(x=>x.rdays&&!dowAll(x.rdays))))CL.sched=true;
-  S.tasks.forEach(x=>put('tasks',x.id,Object.assign({id:x.id,user_id:uid,project_id:x.project||null,title:x.title,description:x.desc||'',assignees:whoNames(x),created_on:x.created||TODAY(),due:x.due||null,status:x.status,priority:x.prio,focus:!!x.focus,repeat:x.repeat||null,start_on:x.start||null,end_on:x.endOn||null,done_on:x.doneOn||null,moves:x.moves||0,notes:x.notes||[],comments:x.comments||[],links:x.links||[],files:(x.files||[]).filter(f=>f.path).map(f=>({id:f.id,name:f.name,size:f.size,path:f.path,type:f.type||'',digest:f.digest||'',dAt:f.dAt||'',err:f.err||''})),advice_done:!!x.advDone},CL.sched?{repeat_days:x.rdays&&!dowAll(x.rdays)?clWeekdays(x.rdays):null}:{})));
+  S.tasks.forEach(x=>put('tasks',x.id,Object.assign({id:x.id,user_id:uid,project_id:x.project||null,title:x.title,description:x.desc||'',assignees:whoNames(x),created_on:x.created||TODAY(),due:x.due||null,status:x.status,priority:x.prio,focus:!!x.focus,repeat:x.repeat||null,start_on:x.start||null,end_on:x.endOn||null,done_on:x.doneOn||null,moves:x.moves||0,notes:x.notes||[],comments:x.comments||[],links:x.links||[],files:(x.files||[]).filter(f=>f.path||f.kind==='text').map(f=>({id:f.id,name:f.name,size:f.size,path:f.path||'',type:f.type||'',kind:f.kind||'',text:f.kind==='text'?(f.text||''):'',digest:f.digest||'',dAt:f.dAt||'',err:f.err||''})),advice_done:!!x.advDone},CL.sched?{repeat_days:x.rdays&&!dowAll(x.rdays)?clWeekdays(x.rdays):null}:{})));
   S.inbox.forEach(i=>{if(!i.ts)i.ts=new Date().toISOString();put('inbox_items',i.id,{id:i.id,user_id:uid,text:i.text,created_at:i.ts});});
   S.ideas.forEach(d=>put('ideas',d.id,{id:d.id,user_id:uid,text:d.text,body:d.body||'',status:d.status,comments:d.comments||[]}));
   S.habits.forEach(h=>{put('habits',h.id,Object.assign({id:h.id,user_id:uid,name:h.name,time_of_day:h.time||'09:00'},CL.sched?{weekdays:clWeekdays(h.dow)}:{}));clHabitDates(h).forEach(d=>put('habit_logs',h.id+'|'+d,{habit_id:h.id,user_id:uid,day:d}));});
@@ -4151,7 +4301,7 @@ async function clUpload(x,files){
     x.files.push(rec);render();
     const r=await CL.sb.storage.from('attachments').upload(path,f,{contentType:f.type||'application/octet-stream',upsert:false});
     if(r.error){x.files=x.files.filter(q=>q!==rec);toast('Не удалось загрузить файл: '+clHuman(r.error));render();continue;}
-    rec.path=path;render();clSoon();if(x.advDone&&AI_ON())tfRead(x.id,rec.id,f);}
+    rec.path=path;render();clSoon();if(x.advDone&&AI_ON()&&attKind(rec)!=='audio')tfRead(x.id,rec.id,f);}
 }
 function clRm(files){if(!CL.on||!CL.sb)return;const p=(files||[]).map(f=>f.path).filter(Boolean);if(p.length)CL.sb.storage.from('attachments').remove(p).catch(()=>{});}
 /* ---------- экран входа ---------- */
