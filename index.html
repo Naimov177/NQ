@@ -4443,6 +4443,7 @@ const clAuthMsg=e=>{const m=String(e&&e.message||'').toLowerCase();
   if(!e||!e.status||/fetch|network/.test(m))return 'Нет связи с сервером. Проверьте интернет.';
   return 'Не удалось отправить письмо: '+(e.message||'ошибка');};
 const clBrand='<div class="ag-brand"><b>NQ</b><i></i><span>Next Quest</span></div>';
+const INSTALLED=()=>{try{return navigator.standalone===true||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches);}catch(e){return false;}};
 const clCodeMode=()=>!!(window.NQ_CONFIG&&NQ_CONFIG.codeInEmail);
 function clGate(mode,msg){
   CL.mode=mode;let el=document.getElementById('authgate');
@@ -4451,7 +4452,7 @@ function clGate(mode,msg){
     el.addEventListener('submit',e=>{e.preventDefault();if(e.target.id==='ag-form-email'){const v=document.getElementById('ag-email').value.trim();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){clGate('login','Проверьте адрес почты.');return;}clSendCode(v);}
       else if(e.target.id==='ag-form-code'){const v=document.getElementById('ag-code').value.replace(/\s+/g,'');if(v.length<6){clGate('code','Введите код из письма целиком.');return;}clVerify(v);}});
     el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
-      if(b.id==='ag-other'){CL.email='';clGate('login');}
+      if(b.id==='ag-other'){CL.email='';try{localStorage.removeItem('nq-login-pending');}catch(e){}clGate('login');}
       else if(b.id==='ag-resend'){const left=60-Math.floor((Date.now()-CL.sentAt)/1000);if(left>0){clGate('code',`Подождите ещё ${left} с, потом отправьте снова.`);return;}clSendCode(CL.email);}
       else if(b.id==='ag-retry'){if(CL.session)clStart(CL.session);else clBoot();}
       else if(b.id==='ag-out'){clSignOut();}});}
@@ -4459,7 +4460,7 @@ function clGate(mode,msg){
   const err=`<p class="ag-err" id="ag-err" role="alert">${esc(msg||'')}</p>`;let body='';
   if(mode==='loading')body='<p class="ag-load"><i class="spin"></i>Загружаю ваши данные…</p>';
   else if(mode==='login')body=`<h1>Вход</h1><p class="ag-sub">Введите почту: пришлём ${clCodeMode()?'код':'ссылку'} для входа. Пароль не нужен.</p><form id="ag-form-email" novalidate><label for="ag-email">Почта</label><input id="ag-email" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" value="${esc(CL.email)}"><button class="btn primary" type="submit">${clCodeMode()?'Получить код':'Получить ссылку'}</button></form>${err}<p class="ag-foot">Ваши данные хранятся в защищённой базе и видны только вам.</p>`;
-  else if(mode==='code')body=`<h1>Проверьте почту</h1><p class="ag-sub">Мы отправили письмо на <b>${esc(CL.email)}</b>. ${clCodeMode()?'Введите код из письма или откройте ссылку.':'Откройте ссылку из письма: вход произойдёт на том устройстве, где вы её откроете.'} Если письма нет, загляните в «Спам».</p>${clCodeMode()?'<form id="ag-form-code" novalidate><label for="ag-code">Код из письма</label><input id="ag-code" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="123456"><button class="btn primary" type="submit">Войти</button></form>':''}${err}<div class="ag-links"><button type="button" class="linkbtn" id="ag-resend">Отправить ещё раз</button><button type="button" class="linkbtn" id="ag-other">Другая почта</button></div>`;
+  else if(mode==='code')body=`<h1>Проверьте почту</h1><p class="ag-sub">Мы отправили письмо на <b>${esc(CL.email)}</b>. ${clCodeMode()?(INSTALLED()?'Введите код из письма. Ссылка из письма откроется в браузере и не войдёт в это приложение.':'Введите код из письма или откройте ссылку.'):'Откройте ссылку из письма: вход произойдёт на том устройстве, где вы её откроете.'} Если письма нет, загляните в «Спам».</p>${clCodeMode()?'<form id="ag-form-code" novalidate><label for="ag-code">Код из письма</label><input id="ag-code" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="123456"><button class="btn primary" type="submit">Войти</button></form>':''}${err}<div class="ag-links"><button type="button" class="linkbtn" id="ag-resend">Отправить ещё раз</button><button type="button" class="linkbtn" id="ag-other">Другая почта</button></div>`;
   else if(mode==='error')body=`<h1>Не получилось загрузить данные</h1><p class="ag-sub">${esc(msg||'')}</p><div class="ag-links"><button type="button" class="btn primary" id="ag-retry">Повторить</button><button type="button" class="linkbtn" id="ag-out">Выйти</button></div>`;
   el.innerHTML=`<div class="agcard">${clBrand}${body}</div>`;
   const f=el.querySelector('input');if(f&&mode!=='loading'){try{f.focus();}catch(e){}}
@@ -4468,7 +4469,7 @@ async function clSendCode(email){
   const g=document.getElementById('ag-form-email');if(g)g.querySelector('button').disabled=true;
   let r;try{r=await CL.sb.auth.signInWithOtp({email,options:{shouldCreateUser:true,emailRedirectTo:location.origin+location.pathname}});}catch(e){r={error:e};}
   if(r.error){CL.email=email;clGate('login',clAuthMsg(r.error));return;}
-  CL.email=email;CL.sentAt=Date.now();clGate('code');
+  CL.email=email;CL.sentAt=Date.now();try{localStorage.setItem('nq-login-pending',JSON.stringify({email,at:CL.sentAt}));}catch(e){}clGate('code');
 }
 async function clVerify(code){
   const g=document.getElementById('ag-form-code');if(g)g.querySelector('button').disabled=true;
@@ -4479,7 +4480,7 @@ async function clVerify(code){
 /* ---------- запуск, выход, перезагрузка данных ---------- */
 async function clStart(session){
   if(CL.starting)return;if(CL.user&&CL.snap&&CL.user.id===session.user.id)return;CL.starting=true;CL.session=session;
-  try{CL.user=session.user;clGate('loading');await clLoad();clGate('off');if(!location.hash||location.hash==='#')location.hash='plan';clStatus('saved');render();}
+  try{CL.user=session.user;clGate('loading');await clLoad();try{localStorage.removeItem('nq-login-pending');}catch(e){}clGate('off');if(!location.hash||location.hash==='#')location.hash='plan';clStatus('saved');render();}
   catch(e){console.warn('NQ: загрузка не удалась',e&&e.message);CL.user=null;CL.snap=null;clGate('error','Проверьте интернет и повторите. ('+clHuman(e)+')');}
   finally{CL.starting=false;}
 }
@@ -4487,6 +4488,7 @@ function clReset(){CL.user=null;CL.snap=null;CL.peopleIds={};CL.rej={};CL.sessio
 async function clSignOut(){
   if(CL.user&&CL.snap){try{await clFlush();}catch(e){}}
   try{await CL.sb.auth.signOut();}catch(e){}
+  try{localStorage.removeItem('nq-login-pending');}catch(e){}
   clReset();clGate('login');
 }
 /* любой запрос к базе ограничен по времени: зависший запрос не должен навсегда останавливать сохранение */
@@ -4506,7 +4508,9 @@ async function clBoot(){
   if(s)await clStart(s);
   else if(!CL.user){const q=new URLSearchParams(location.search),old=q.has('code')||q.has('error');
     if(old){try{history.replaceState(null,'',location.pathname+location.hash);}catch(e){}}
-    clGate('login',(linkBad||old)?'Ссылка устарела или уже использована. Запросите новое письмо и откройте ссылку один раз.':'');}
+    let pend=null;try{pend=JSON.parse(localStorage.getItem('nq-login-pending')||'null');}catch(e){}
+    if(clCodeMode()&&pend&&pend.email&&Date.now()-pend.at<3600000&&!linkBad&&!old){CL.email=pend.email;CL.sentAt=pend.at;clGate('code');}
+    else clGate('login',(linkBad||old)?'Ссылка устарела или уже использована. Запросите новое письмо и откройте ссылку один раз.':'');}
 }
 async function clExport(){
   if(!CL.user)return;const R=clRows();const out={exported_at:new Date().toISOString(),email:CL.user.email||'',data:{}};
