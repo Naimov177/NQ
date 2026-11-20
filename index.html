@@ -1239,9 +1239,10 @@ table.tbl th.c-stat,table.tbl td.c-stat,table.tbl th.c-prio,table.tbl td.c-prio{
 .dragh{border:0;background:none;color:var(--muted);cursor:grab;padding:6px 3px;border-radius:8px;touch-action:none;line-height:0}
 .dragh:hover,.dragh:focus-visible{color:var(--ink);background:var(--soft)}
 .dragh:active{cursor:grabbing}
-tr.dragging{opacity:.45}
-tr.drop-before{box-shadow:inset 0 3px 0 var(--accent)}
-tr.drop-after{box-shadow:inset 0 -3px 0 var(--accent)}
+tr.dshift{transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+tr.dragging{position:relative;z-index:30;transition:none!important;filter:drop-shadow(0 8px 16px rgba(0,0,0,.22));cursor:grabbing}
+tr.dragging td{background:color-mix(in srgb,var(--accent) 9%,var(--surface))!important}
+@media (prefers-reduced-motion:reduce){tr.dshift{transition:none}}
 body.dragmode{user-select:none;cursor:grabbing}
 /* настройки намаза: главное сверху, остальное в «Дополнительно» */
 .padv{margin-top:6px;border-top:1px solid var(--line)}
@@ -3033,25 +3034,34 @@ function attDraw(force){
 {const _r=render;render=function(){const r=_r.apply(this,arguments);if(ATT.open)attDraw();return r;};}
 /* Текст, который вы печатаете, не пропадает, когда страница перерисовывается сама (возврат на вкладку, окончание загрузки файла и т. п.).
    Перерисовка в ответ на ваше нажатие работает как раньше: поле очищается, где так задумано. */
-/* перетаскивание: мышью и пальцем (за значок слева), а с клавиатуры стрелками вверх и вниз на значке */
-const DRAG={on:null};
+/* перетаскивание: строка движется за мышью или пальцем (значок слева), соседние строки плавно расступаются, при отпускании строка мягко садится на место; с клавиатуры стрелки вверх и вниз на значке */
+const DRAG={on:null,raf:0};
 const dragRows=()=>[...document.querySelectorAll('#view tbody tr[data-open]')];
-function dragClear(){document.querySelectorAll('tr.dragging,tr.drop-before,tr.drop-after').forEach(r=>r.classList.remove('dragging','drop-before','drop-after'));document.body.classList.remove('dragmode');}
+const rowTops=()=>{const m=new Map();dragRows().forEach(r=>m.set(r.dataset.open,r.getBoundingClientRect().top));return m;};
+function flipRows(before){dragRows().forEach(r=>{const o=before.get(r.dataset.open);if(o===undefined)return;const dy=o-r.getBoundingClientRect().top;if(Math.abs(dy)<1)return;
+  r.style.transition='none';r.style.transform=`translateY(${dy}px)`;void r.offsetHeight;r.style.transition='transform .24s cubic-bezier(.2,.8,.2,1)';r.style.transform='';
+  const done=()=>{r.style.transition='';r.removeEventListener('transitionend',done);};r.addEventListener('transitionend',done);setTimeout(done,360);});}
+function dragApply(){const D=DRAG.on,order=[];D.rows.forEach((r,k)=>{if(k!==D.idx)order.push(k);});order.splice(D.cur,0,D.idx);let top=D.tops[0];const nt=[];order.forEach(k=>{nt[k]=top;top+=D.hs[k];});
+  D.rows.forEach((r,k)=>{if(k===D.idx)return;const off=nt[k]-D.tops[k];r.style.transform=off?`translateY(${off}px)`:'';});}
+function dragUpdate(){const D=DRAG.on;if(!D)return;const dy=D.pageY-D.startY;D.row.style.transform=`translateY(${dy}px)`;const c=D.tops[D.idx]+D.hs[D.idx]/2+dy;let ni=0;
+  D.rows.forEach((r,k)=>{if(k!==D.idx&&D.tops[k]+D.hs[k]/2<c)ni++;});if(ni!==D.cur){D.cur=ni;dragApply();}}
+function dragLoop(){const D=DRAG.on;if(!D)return;let s=0;if(D.cy<80)s=-Math.min(18,(80-D.cy)/4);else if(D.cy>innerHeight-80)s=Math.min(18,(D.cy-(innerHeight-80))/4);
+  if(s){const was=scrollY;window.scrollBy(0,s);if(scrollY!==was){D.pageY=D.cy+scrollY;dragUpdate();}}DRAG.raf=requestAnimationFrame(dragLoop);}
 document.addEventListener('pointerdown',e=>{const h=e.target.closest&&e.target.closest('.dragh');if(!h||(e.pointerType==='mouse'&&e.button!==0))return;e.preventDefault();
-  const row=h.closest('tr');DRAG.on={id:h.dataset.drag,key:h.dataset.key,row,target:'',after:false,pid:e.pointerId,h};row.classList.add('dragging');document.body.classList.add('dragmode');try{h.setPointerCapture(e.pointerId);}catch(x){}});
-document.addEventListener('pointermove',e=>{const D=DRAG.on;if(!D||e.pointerId!==D.pid)return;
-  if(e.clientY<70)window.scrollBy(0,-14);else if(e.clientY>innerHeight-70)window.scrollBy(0,14);
-  document.querySelectorAll('tr.drop-before,tr.drop-after').forEach(r=>r.classList.remove('drop-before','drop-after'));
-  const el=document.elementFromPoint(e.clientX,e.clientY),tr=el&&el.closest?el.closest('tr[data-open]'):null;
-  if(!tr||tr===D.row||!tr.closest('tbody')||tr.closest('tbody')!==D.row.closest('tbody')||tr.classList.contains('done')){D.target='';return;}
-  const b=tr.getBoundingClientRect();D.target=tr.dataset.open;D.after=e.clientY>b.top+b.height/2;tr.classList.add(D.after?'drop-after':'drop-before');});
-const dragEnd=e=>{const D=DRAG.on;if(!D||(e&&e.pointerId!==D.pid))return;DRAG.on=null;const ok=D.target&&e&&e.type==='pointerup';dragClear();if(ok){ordMove(D.key,D.id,D.target,D.after);toast(D.key==='all'?'Порядок сохранён. Вернуть по приоритету: выберите «По приоритету» в списке порядка.':'Порядок сохранён.');render();}};
+  const row=h.closest('tr'),tb=row.closest('tbody'),rows=[...tb.querySelectorAll('tr[data-open]:not(.done)')],idx=rows.indexOf(row);if(idx<0)return;const rc=rows.map(r=>r.getBoundingClientRect());
+  DRAG.on={id:h.dataset.drag,key:h.dataset.key,row,rows,idx,cur:idx,tops:rc.map(r=>r.top+scrollY),hs:rc.map(r=>r.height),startY:e.clientY+scrollY,pageY:e.clientY+scrollY,cy:e.clientY,pid:e.pointerId,h};
+  rows.forEach(r=>{r.style.transition='';r.style.transform='';if(r!==row)r.classList.add('dshift');});row.classList.add('dragging');document.body.classList.add('dragmode');
+  try{h.setPointerCapture(e.pointerId);}catch(x){}cancelAnimationFrame(DRAG.raf);DRAG.raf=requestAnimationFrame(dragLoop);});
+document.addEventListener('pointermove',e=>{const D=DRAG.on;if(!D||e.pointerId!==D.pid)return;D.cy=e.clientY;D.pageY=e.clientY+scrollY;dragUpdate();});
+const dragEnd=e=>{const D=DRAG.on;if(!D||(e&&e.pointerId!==D.pid))return;DRAG.on=null;cancelAnimationFrame(DRAG.raf);const commit=!!e&&e.type==='pointerup'&&D.cur!==D.idx,before=rowTops();
+  document.body.classList.remove('dragmode');D.rows.forEach(r=>{r.classList.remove('dragging','dshift');r.style.transform='';r.style.transition='';});
+  if(commit){const others=D.rows.filter((r,k)=>k!==D.idx).map(r=>r.dataset.open);if(D.cur===0)ordMove(D.key,D.id,others[0],false);else ordMove(D.key,D.id,others[D.cur-1],true);
+    toast(D.key==='all'?'Порядок сохранён. Вернуть по приоритету: выберите «По приоритету» в списке порядка.':'Порядок сохранён.');render();}
+  flipRows(before);};
 document.addEventListener('pointerup',dragEnd);document.addEventListener('pointercancel',dragEnd);
 document.addEventListener('keydown',e=>{const h=e.target.closest&&e.target.closest('.dragh');if(!h||(e.key!=='ArrowUp'&&e.key!=='ArrowDown'))return;e.preventDefault();
   const rows=dragRows().filter(r=>!r.classList.contains('done')),i=rows.findIndex(r=>r.dataset.open===h.dataset.drag),j=i+(e.key==='ArrowUp'?-1:1);if(i<0||j<0||j>=rows.length)return;
-  ordMove(h.dataset.key,h.dataset.drag,rows[j].dataset.open,e.key==='ArrowDown');render();const nh=document.querySelector('.dragh[data-drag="'+h.dataset.drag+'"]');if(nh)nh.focus();});
-S.padvOpen=false;
-document.addEventListener('toggle',e=>{if(e.target.classList&&e.target.classList.contains('padv'))S.padvOpen=e.target.open;},true);
+  const before=rowTops();ordMove(h.dataset.key,h.dataset.drag,rows[j].dataset.open,e.key==='ArrowDown');render();flipRows(before);const nh=document.querySelector('.dragh[data-drag="'+h.dataset.drag+'"]');if(nh)nh.focus();});
 let LAST_ACT=0;
 ['click','change','submit'].forEach(ev=>document.addEventListener(ev,()=>{LAST_ACT=Date.now();},true));
 document.addEventListener('keydown',e=>{if(e.key==='Enter')LAST_ACT=Date.now();},true);
